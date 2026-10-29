@@ -290,7 +290,7 @@ function addWin(){const before=unl();total++;try{localStorage.setItem('tt_tot',t
 ['contextmenu','gesturestart','dblclick','selectstart'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
 drawRoad();addEventListener('load',()=>{if(location.hash)show(location.hash.slice(1))});
 </script>
-<script src="play.js"></script>
+<script src="play.js"></script><script src="fun.js"></script>
 <svg id="lk" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="#0005"/><circle class="p" cx="22" cy="22" r="18" fill="none" stroke="#ffd23f" stroke-width="4"/><text x="22" y="29" font-size="18" text-anchor="middle">🔒</text></svg>
 <script>
 (function(){const B=document.body,lk=$('#lk'),ring=lk.querySelector('.p');let locked=false,t0=0,raf=0;

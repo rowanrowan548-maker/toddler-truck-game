@@ -138,3 +138,40 @@
 .sb-o{position:absolute;left:0;top:0;pointer-events:auto;will-change:transform}
 .sb-o img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 .8vmin .8vmin rgba(0,0,0,.3))}
 .sb-tg{position:absolute;top:3vh;width:13vmin;height:13vmin;border-radius:50%;background:rgba(255,255,255,.75);border:.6vmin solid #fff;font-size:8vmin;display:flex;align-items:center;justify-content:center;pointer-events:auto;box-shadow:0 1vmin 2vmin rgba(0,0,0,.2)}
+#mascot{position:fixed;left:.5vw;bottom:.5vh;width:17vmin;height:21vmin;z-index:25;display:none;pointer-events:auto;transform-origin:50% 100%}
+#mascot.on{display:block}
+#mascot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 .6vmin .8vmin rgba(0,0,0,.3));pointer-events:none}
+#mascot .mc{display:none}#mascot.ch .mc{display:block}#mascot.ch .mw{display:none}
+#mascot .mw{animation:mbreath 2.4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes mbreath{50%{transform:scale(1.03,.97)}}
+#mascot .bub{position:absolute;left:80%;top:-8%;white-space:nowrap;background:#fff;border:.5vmin solid #ffb300;border-radius:4vmin;padding:1vmin 2.4vmin;font:bold 3.6vmin sans-serif;color:#e65100;opacity:0;transform:scale(0);transform-origin:0 100%;pointer-events:none}
+#mascot .bub.on{animation:bubIn 2.2s ease-out}
+@keyframes bubIn{0%{opacity:0;transform:scale(0)}12%{opacity:1;transform:scale(1.15)}20%,85%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.8)}}
+.rip{position:fixed;width:12vmin;height:12vmin;margin:-6vmin 0 0 -6vmin;border-radius:50%;border:.8vmin solid rgba(255,255,255,.9);z-index:40;pointer-events:none;animation:rip .45s ease-out forwards}
+@keyframes rip{from{transform:scale(.2);opacity:1}to{transform:scale(1.3);opacity:0}}
+.rwd{position:fixed;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);pointer-events:auto}
+.rwd .rays{position:absolute;width:90vmin;height:90vmin;background:repeating-conic-gradient(rgba(255,235,59,.55) 0 10deg,transparent 10deg 20deg);border-radius:50%;animation:rot 6s linear infinite;transition:opacity .4s;-webkit-mask:radial-gradient(#000 30%,transparent 70%);mask:radial-gradient(#000 30%,transparent 70%)}
+@keyframes rot{to{transform:rotate(360deg)}}
+.rwd .card{position:relative;width:44vmin;height:44vmin;background:#fff;border-radius:6vmin;border:1.4vmin solid #ffca28;box-shadow:0 2vmin 5vmin rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
+.rwd .card img{width:85%;height:85%;object-fit:contain}
+.rwd .card b{position:absolute;top:-4vmin;right:-4vmin;background:#e53935;color:#fff;font:bold 4vmin sans-serif;border-radius:3vmin;padding:1vmin 2vmin;transform:rotate(12deg)}
+#stbadge{position:fixed;right:2vmin;bottom:2vmin;z-index:25;display:none;background:#fff;border:.6vmin solid #ffca28;border-radius:5vmin;padding:.6vmin 2vmin;font:bold 4vmin sans-serif;color:#e65100;pointer-events:none}
+#stbadge.on{display:block}
+#garage{background:linear-gradient(#fff3e0,#ffe0b2);overflow-y:auto;touch-action:pan-y}
+#garage .lbl{position:absolute;top:2.5vmin;left:50%;transform:translateX(-50%);font:bold 5vmin sans-serif;color:#e65100;background:#fff;padding:1vmin 4vmin;border-radius:5vmin}
+.gprog{position:absolute;top:12vmin;left:20vw;right:20vw;height:5vmin;background:#fff;border-radius:3vmin;border:.5vmin solid #ffca28;overflow:hidden}
+.gprog i{display:block;height:100%;background:linear-gradient(90deg,#ffeb3b,#ff9800)}
+.gprog span{position:absolute;inset:0;text-align:center;font:bold 3.4vmin/4.2vmin sans-serif;color:#5d4037}
+.ggrid{position:absolute;top:20vmin;left:3vw;right:3vw;display:grid;grid-template-columns:repeat(auto-fill,minmax(15vmin,1fr));gap:2vmin;padding-bottom:4vmin}
+.gs{aspect-ratio:1;background:rgba(255,255,255,.55);border-radius:3vmin;border:.5vmin dashed #bcaaa4;display:flex;align-items:center;justify-content:center}
+.gs img{width:85%;height:85%;object-fit:contain;filter:brightness(0) opacity(.18);pointer-events:none}
+.gs.on{background:#fff;border:.6vmin solid #ffca28;box-shadow:0 .8vmin 1.6vmin rgba(0,0,0,.15)}
+.gs.on img{filter:drop-shadow(0 .5vmin .5vmin rgba(0,0,0,.25))}
+.surp{position:absolute;z-index:20;pointer-events:auto;width:22vmin;height:22vmin}
+.surp img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+.surp.rainbow{width:46vmin;height:24vmin;overflow:hidden}
+.surp.rainbow .arc{width:46vmin;height:46vmin;border-radius:50%;background:radial-gradient(transparent 52%,#8e24aa 52% 56%,#1e88e5 56% 60%,#43a047 60% 64%,#fdd835 64% 68%,#fb8c00 68% 72%,#e53935 72% 76%,transparent 76%)}
+.surp .gift{position:absolute;left:30%;bottom:-40%;font-size:10vmin}
+.pscr img[src*="excavator"],.pscr img[src*="dump"],.pscr img[src*="fire"],.pscr img[src*="mixer"],.pscr img[src*="loader"],.pscr img[src*="roller"],.pscr img[src*="crane"],.pscr img[src*="bulldozer"],.pscr img[src*="tow"],.pscr img[src*="water"],.pscr img[src*="forklift"]{animation:vidle 1.4s ease-in-out infinite alternate}
+@keyframes vidle{to{translate:0 -.5vmin}}
+body[data-p=p_piano] #mascot{bottom:auto;top:13vh}
