@@ -8,7 +8,7 @@
 html,body{margin:0;height:100%;overflow:hidden;touch-action:none;overscroll-behavior:none;font-family:"PingFang SC","Noto Sans SC",sans-serif}
 svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 /* ---------- background ---------- */
-#bg{position:fixed;inset:0;background:linear-gradient(#3fb6ff,#8fdcff 45%,#d6f4ff 66%);overflow:hidden}
+#bg{position:fixed;inset:0;background:url(assets/bg.webp) center bottom/cover,#8fdcff;overflow:hidden}#bg .hill,#bg .tree,#crane,#ground{display:none}
 .abs{position:absolute}
 #sun{left:4vw;top:3vh;width:22vmin;animation:sunrot 6s ease-in-out infinite}
 @keyframes sunrot{50%{transform:rotate(8deg) scale(1.05)}}
@@ -82,10 +82,19 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 #gar{position:absolute;top:13vh;left:3vw;right:3vw;bottom:2vh;display:grid;grid-template-columns:repeat(auto-fill,minmax(26vmin,1fr));gap:2.5vmin;overflow:hidden;pointer-events:auto}
 .vc{background:#fffd;border-radius:4vmin;border:.8vmin solid #ffd23f;box-shadow:0 1vmin 0 #0003;display:flex;align-items:center;justify-content:center;padding:1vmin}
 .vc svg{width:100%;height:100%;max-height:22vmin}.vc:active{transform:scale(.94)}
-.act{transform-box:view-box}
+.act{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes vb{25%{transform:translateY(-14%) scale(1.04,.96)}50%{transform:scale(1.06,.92)}75%{transform:translateY(-6%)}}
+@keyframes vt{30%{transform:rotate(-6deg)}60%{transform:rotate(3deg)}}
+@keyframes vs{10%,30%,50%,70%{transform:translateX(-2%) rotate(-1deg)}20%,40%,60%,80%{transform:translateX(2%) rotate(1deg)}}
+@keyframes vd{40%{transform:translateX(9%)}70%{transform:translateX(-3%)}}
+.fx circle,.fx path{opacity:0;transform-box:fill-box;transform-origin:center}
+.go .fx .du{animation:du 1.2s ease-out}.go .fx .du:nth-child(2){animation-delay:.15s}.go .fx .du:nth-child(3){animation-delay:.3s}
+@keyframes du{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:translate(-40px,-25px) scale(2.2)}}
+.go .fx .sp{animation:spk 1.1s ease-out}.go .fx .sp:nth-child(5){animation-delay:.25s}.go .fx .sp:nth-child(6){animation-delay:.45s}
+@keyframes spk{0%{opacity:0;transform:scale(0) rotate(0)}40%{opacity:1;transform:scale(1.3) rotate(90deg)}100%{opacity:0;transform:scale(.4) rotate(180deg)}}
+.go .fx .wa{animation:wa 1.2s ease-out}@keyframes wa{0%{opacity:0}20%,70%{opacity:.85}100%{opacity:0;transform:translate(-30px,10px)}}
 .go .act{animation:var(--a) 1.2s ease-in-out}
 .go{animation:dance .3s ease-in-out 4 alternate}
-.drum{transform-box:fill-box;transform-origin:center;animation:spin 3s linear infinite}.go .drum{animation-duration:.4s}
 .spray{opacity:0}.go .spray{animation:spr 1.2s}@keyframes spr{20%,80%{opacity:1}}
 .siren{animation:blinkc .5s steps(1) infinite}@keyframes blinkc{50%{fill:#2196f3}}
 @keyframes tip{50%{transform:rotate(-32deg)}}@keyframes digA{50%{transform:rotate(28deg)}}@keyframes push{50%{transform:translateX(22px)}}
@@ -99,7 +108,7 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 .ch{position:absolute;top:16vh;bottom:5vh;left:3vw;right:3vw;display:flex;justify-content:space-around;align-items:center;pointer-events:none}
 .card{pointer-events:auto;background:#fffd;border-radius:5vmin;border:1vmin solid #ffd23f;box-shadow:0 1.5vmin 0 #0003;display:flex;align-items:center;justify-content:center;width:28vw;max-width:42vmin;aspect-ratio:1.2}
 .card svg{width:90%}.card:active{transform:scale(.94)}
-.sil svg{filter:brightness(0);opacity:.35}
+.sil svg{filter:brightness(0);opacity:.4}.sil svg .fx,.sil svg>ellipse{display:none}
 #drag8{position:absolute;bottom:3vh;left:50%;width:30vmin;margin-left:-15vmin;touch-action:none}
 #c8{bottom:40vh;top:14vh}
 #replay{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);width:18vmin;height:18vmin;font-size:10vmin}
@@ -129,18 +138,18 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 <div id="home" class="rb tap">🏠</div>
 <div id="topbar"><div id="mute" class="rb tap">🎵</div><div id="fs" class="rb tap">⛶</div></div>
 <div id="menu" class="scr on"><div id="drivers"></div><div id="title">🚧 宝宝工程车 🚧</div>
- <div id="btns"><div class="big" style="background:linear-gradient(#ffb74d,#f57c00)" data-g="g1"><svg viewBox="-10 -10 290 190" id="m1"></svg>挖土装车</div>
- <div class="big" style="background:linear-gradient(#64b5f6,#1e88e5)" data-g="g2"><svg viewBox="-10 -10 290 190" id="m2"></svg>颜色回家</div>
- <div class="big" style="background:linear-gradient(#81c784,#2e7d32)" data-g="g3"><svg viewBox="-10 -10 290 190" id="m3"></svg>数石头</div>
- <div class="big" style="background:linear-gradient(#f06292,#ad1457)" data-g="g4"><svg viewBox="-10 -70 290 250" id="m4"></svg>工程车车库</div>
- <div class="big" style="background:linear-gradient(#ba68c8,#7b1fa2)" data-g="g5"><svg viewBox="-10 -70 290 250" id="m5"></svg>认一认</div>
- <div class="big" style="background:linear-gradient(#4dd0e1,#00838f)" data-g="g6"><svg viewBox="-10 -70 290 250" id="m6"></svg>听声音</div>
- <div class="big" style="background:linear-gradient(#ffd54f,#f9a825)" data-g="g7"><svg viewBox="-10 -70 290 250" id="m7"></svg>大和小</div>
- <div class="big" style="background:linear-gradient(#a1887f,#5d4037)" data-g="g8"><svg viewBox="-10 -70 290 250" id="m8"></svg>找影子</div></div><div id="road"></div>
+ <div id="btns"><div class="big" style="background:linear-gradient(#ffb74d,#f57c00)" data-g="g1"><svg viewBox="-20 -60 300 230" id="m1"></svg>挖土装车</div>
+ <div class="big" style="background:linear-gradient(#64b5f6,#1e88e5)" data-g="g2"><svg viewBox="-20 -60 300 230" id="m2"></svg>颜色回家</div>
+ <div class="big" style="background:linear-gradient(#81c784,#2e7d32)" data-g="g3"><svg viewBox="-20 -60 300 230" id="m3"></svg>数石头</div>
+ <div class="big" style="background:linear-gradient(#f06292,#ad1457)" data-g="g4"><svg viewBox="-20 -60 300 230" id="m4"></svg>工程车车库</div>
+ <div class="big" style="background:linear-gradient(#ba68c8,#7b1fa2)" data-g="g5"><svg viewBox="-20 -60 300 230" id="m5"></svg>认一认</div>
+ <div class="big" style="background:linear-gradient(#4dd0e1,#00838f)" data-g="g6"><svg viewBox="-20 -60 300 230" id="m6"></svg>听声音</div>
+ <div class="big" style="background:linear-gradient(#ffd54f,#f9a825)" data-g="g7"><svg viewBox="-20 -60 300 230" id="m7"></svg>大和小</div>
+ <div class="big" style="background:linear-gradient(#a1887f,#5d4037)" data-g="g8"><svg viewBox="-20 -60 300 230" id="m8"></svg>找影子</div></div><div id="road"></div>
  <div id="stickers"></div></div>
-<div id="g1" class="scr"><div class="lbl">点挖掘机挖土</div><div id="hand">👆</div><svg id="ex" class="tap" viewBox="0 0 260 170"></svg><svg id="dt" viewBox="0 0 260 170"></svg></div>
-<div id="g2" class="scr"><div class="lbl">把车送回同色车库</div><div id="garages"></div><svg id="ctruck" class="hint tap" viewBox="0 0 260 170"></svg></div>
-<div id="g3" class="scr"><div class="lbl">把石头装上车</div><div id="num"></div><div id="rocks"></div><svg id="ctr" viewBox="0 0 260 170"></svg></div>
+<div id="g1" class="scr"><div class="lbl">点挖掘机挖土</div><div id="hand">👆</div><svg id="ex" class="tap" viewBox="-20 -60 300 230"></svg><svg id="dt" viewBox="-20 -60 300 230"></svg></div>
+<div id="g2" class="scr"><div class="lbl">把车送回同色车库</div><div id="garages"></div><svg id="ctruck" class="hint tap" viewBox="-20 -60 300 230"></svg></div>
+<div id="g3" class="scr"><div class="lbl">把石头装上车</div><div id="num"></div><div id="rocks"></div><svg id="ctr" viewBox="-20 -60 300 230"></svg></div>
 <div id="g4" class="scr"><div class="lbl">点一点，认识工程车</div><div id="gar"></div></div>
 <div id="g5" class="scr"><div class="lbl">认一认</div><div id="c5" class="ch"></div></div>
 <div id="g6" class="scr"><div class="lbl">听声音猜车</div><div id="c6" class="ch"></div><div id="replay" class="rb tap">🔊</div></div>
@@ -173,7 +182,12 @@ tow:{n:'拖车',c:'#43a047',d:c=>base(`<rect x="30" y="85" width="130" height="4
 fire:{n:'消防车',c:'#d32f2f',d:c=>base(`<rect x="15" y="65" width="140" height="58" rx="10" ${st(c)}/><path d="M30 80h110M30 100h110" stroke="#fff8" stroke-width="5"/><g class="act" style="--a:lift;transform-origin:150px 60px"><rect x="10" y="52" width="145" height="12" fill="#cfd8dc" stroke="#78909c" stroke-width="3"/><path d="M25 52v12M45 52v12M65 52v12M85 52v12M105 52v12M125 52v12" stroke="#78909c" stroke-width="3"/></g><circle class="siren" cx="210" cy="45" r="8" fill="#ff1744"/>`,c,{cy:58}),s:()=>{for(let i=0;i<4;i++){tone(700,.25,'square',.06,i*.5);tone(950,.25,'square',.06,i*.5+.25)}}}
 };
 const TYPES=Object.keys(V);
-function veh(t,c,l){return V[t].d(c||V[t].c,l)}
+const ANI={dump:'vt',excavator:'vs',mixer:'vd',bulldozer:'vd',crane:'vt',roller:'vd',loader:'vb',forklift:'vb',drill:'vs',water:'vd',tow:'vb',fire:'vb'};
+const STAR='M0-14L4-4 14-4 6 3 9 13 0 7-9 13-6 3-14-4-4-4z';
+function veh(t,c,l){const fl=c&&c!=V[t].c?`<g><circle cx="230" cy="-30" r="26" fill="${c}" stroke="#fff" stroke-width="6"/><path d="${STAR}" transform="translate(230,-30)" fill="#fff"/></g>`:'';
+ const wa=t=='water'||t=='fire'?`<circle class="wa" cx="0" cy="120" r="14" fill="#81d4fa"/>`:'';
+ return `<ellipse cx="130" cy="163" rx="128" ry="7" fill="#0003"/><g class="fx"><circle class="du" cx="10" cy="150" r="12" fill="#d7ccc8"/><circle class="du" cx="0" cy="140" r="10" fill="#bcaaa4"/><circle class="du" cx="20" cy="155" r="9" fill="#efebe9"/>${wa}<path class="sp" d="${STAR}" transform="translate(240,-35)" fill="#ffeb3b"/><path class="sp" d="${STAR}" transform="translate(40,-40)" fill="#fff59d"/><path class="sp" d="${STAR}" transform="translate(150,-50)" fill="#ffd54f"/></g><g class="act" style="--a:${ANI[t]}"><image href="assets/${t}.webp" x="-15" y="-50" width="290" height="215" preserveAspectRatio="xMidYMax meet"/>${l?`<g transform="translate(-16,-44)">${l}</g>`:''}</g>${fl}`}
+const PRE=[...TYPES0(),'bg'].map(t=>{const i=new Image();i.src='assets/'+t+'.webp';return i});function TYPES0(){return Object.keys(V)}
 function truck(c,l){return veh('dump',c,l)}
 /* ---------- audio + voice ---------- */
 let AC,master,muted=false,mus=null;
@@ -202,7 +216,7 @@ document.querySelectorAll('.cloud svg').forEach(c=>c.onpointerdown=()=>{ac();sli
 document.querySelectorAll('.bird svg').forEach(b=>b.onpointerdown=()=>{ac();tweet();say('小鸟，叽叽喳');anim(b,'jump',700)});
 document.querySelectorAll('.cone').forEach(c=>c.onpointerdown=()=>{ac();bang();say('路锥');anim(c,'jump',700)});
 /* ---------- menu ---------- */
-$('#m1').innerHTML=veh('excavator');$('#m2').innerHTML=veh('mixer','#e53935');$('#m3').innerHTML=veh('loader');$('#m4').innerHTML=veh('crane');$('#m5').innerHTML=veh('bulldozer');$('#m6').innerHTML=veh('fire');$('#m7').innerHTML=veh('roller');$('#m8').innerHTML=veh('forklift');
+$('#m1').innerHTML=veh('excavator');$('#m2').innerHTML=veh('mixer');$('#m3').innerHTML=veh('loader');$('#m4').innerHTML=veh('crane');$('#m5').innerHTML=veh('bulldozer');$('#m6').innerHTML=veh('fire');$('#m7').innerHTML=veh('roller');$('#m8').innerHTML=veh('forklift');
 function drivers(){$('#drivers').innerHTML=[[72,9,0,''],[84,13,-5,'rev'],[62,11,-3,'']].map(([b,d,dl,r])=>`<svg class="drv ${r}" style="top:${b}vh;animation-duration:${d}s;animation-delay:${dl}s" viewBox="-20 -60 300 230">${veh(pick(TYPES))}</svg>`).join('')}drivers();
 const STK=['🚜','🚧','⭐','🏗️','🚛','🌈','🎈','🦺','🏆','🌟','🚚','🎉','🚒'];let stickers=[];try{stickers=JSON.parse(localStorage.getItem('tt_st')||'[]')}catch(e){}
 function drawSt(){$('#stickers').innerHTML=stickers.slice(-24).map(s=>`<span>${s}</span>`).join('')}drawSt();
@@ -223,12 +237,12 @@ function celebrate(next,t){const cel=$('#cel');praise();addWin();setTimeout(horn
  setTimeout(()=>{bt.classList.remove('show');$('#stk').classList.remove('show')},2300);setTimeout(next,2700)}
 /* ---------- game 1: dig (excavator or loader) ---------- */
 let fill=0,busy=false,dig='excavator',w1=0;
-function s1(){fill=0;busy=false;dig=w1%2?'loader':'excavator';$('#ex').innerHTML=veh(dig);$('#ex').setAttribute('viewBox',dig=='loader'?'0 0 300 170':'0 0 260 170');const dt=$('#dt');dt.style.transition='none';dt.style.transform='translateX(110vw)';drawDT();requestAnimationFrame(()=>requestAnimationFrame(()=>{dt.style.transition='transform 1.2s ease-out';dt.style.transform='translateX(0)'}));$('#hand').style.display='block';ask('点一点'+V[dig].n+'，装满翻斗车')}
+function s1(){fill=0;busy=false;dig=w1%2?'loader':'excavator';$('#ex').innerHTML=veh(dig);$('#ex').setAttribute('viewBox',dig=='loader'?'-20 -60 300 230':'-20 -60 300 230');const dt=$('#dt');dt.style.transition='none';dt.style.transform='translateX(110vw)';drawDT();requestAnimationFrame(()=>requestAnimationFrame(()=>{dt.style.transition='transform 1.2s ease-out';dt.style.transform='translateX(0)'}));$('#hand').style.display='block';ask('点一点'+V[dig].n+'，装满翻斗车')}
 function drawDT(){let l='';for(let i=0;i<fill;i++)l+=`<ellipse cx="${55+i*32}" cy="${52-i*5}" rx="${32+i*8}" ry="${13+i*6}" fill="#8d5524" stroke="#5d3a1a" stroke-width="3"/>`;$('#dt').innerHTML=truck('#ff9800',l)}
 $('#ex').addEventListener('pointerdown',()=>{if(busy)return;busy=true;ac();$('#hand').style.display='none';act($('#ex'),dig);setTimeout(()=>{fill++;pop(fill);say(['一','二','三'][fill-1]);drawDT();anim($('#dt'),'boing',600);if(fill>=3){setTimeout(()=>{w1++;horn();say('装满啦！翻斗车出发！');const dt=$('#dt');dt.style.transition='transform 1.6s ease-in';dt.style.transform='translateX(110vw)';setTimeout(()=>celebrate(()=>{if(cur=='g1')s1()},'dump'),1300)},600)}else busy=false},700)});
 /* ---------- game 2: colors, 2 -> 3 -> 4 choices ---------- */
 const COLS=['#e53935','#fdd835','#1e88e5','#43a047'],CN=['红色','黄色','蓝色','绿色'];let tc,g2busy=false,w2=0,shown=[];
-function s2(){g2busy=false;const n=Math.min(4,2+Math.floor(w2/3));shown=[0,1,2,3].sort(()=>R()-.5).slice(0,n);tc=pick(shown);const vt=pick(TYPES.filter(t=>t!='fire'));
+function s2(){g2busy=false;const n=Math.min(4,2+Math.floor(w2/3));shown=[0,1,2,3].sort(()=>R()-.5).slice(0,n);tc=pick(shown);const vt=pick([['fire','crane'],['excavator','bulldozer','loader','tow'],['mixer'],['water','roller']][tc]);
  $('#garages').innerHTML=shown.map(i=>`<svg class="gar tap" data-i="${i}" viewBox="0 0 100 110"><path d="M5 42L50 5l45 37v63H5z" fill="${COLS[i]}" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="20" y="52" width="60" height="53" rx="4" fill="#37474f"/><path d="M20 62h60M20 72h60M20 82h60M20 92h60" stroke="#546e7a" stroke-width="3"/><circle cx="50" cy="30" r="8" fill="#fff"/></svg>`).join('');
  const t=$('#ctruck');t.setAttribute('viewBox','-20 -60 300 230');t.style.transition='none';t.style.transform='';t.innerHTML=veh(vt,COLS[tc]);t.dataset.t=vt;t.classList.add('hint');
  ask(CN[tc]+'的'+V[vt].n+'，开回'+CN[tc]+'的家');
@@ -240,9 +254,9 @@ const NUM=['一','二','三','四','五'];let need,have,w3=0,ct;
 const rockSvg=`<svg class="rock tap hint" viewBox="0 0 100 80"><path d="M8 72L18 25 50 6 86 20 96 72z" fill="#a1887f" stroke="#6d4c41" stroke-width="5" stroke-linejoin="round"/><circle cx="40" cy="42" r="4" fill="#333"/><circle cx="62" cy="42" r="4" fill="#333"/><path d="M42 54q9 7 18 0" stroke="#333" stroke-width="3" fill="none"/></svg>`;
 function s3(){const mx=w3<6?3:5;need=1+Math.floor(R()*mx);have=0;ct=pick(['dump','loader','tow','forklift','mixer']);ct=ct=='dump'||ct=='loader'?ct:'dump';$('#num').innerHTML='<div class="dot"></div>'.repeat(need);$('#rocks').innerHTML=rockSvg.repeat(need);drawCT();ask('装'+(need==2?'两':NUM[need-1])+'块石头');
  document.querySelectorAll('.rock').forEach(r=>r.onpointerdown=()=>{if(r.dataset.u)return;ac();r.dataset.u=1;r.style.visibility='hidden';have++;pop(have);say(NUM[have-1]);const d=$('#num').children[have-1];d.classList.add('f');d.textContent=have;drawCT();anim($('#ctr'),'boing',600);if(have==need){w3++;setTimeout(()=>celebrate(()=>{if(cur=='g3')s3()},'dump'),700)}})}
-function drawCT(){let l='';for(let i=0;i<have;i++)l+=`<path d="M${22+(i%3)*42} ${52-Math.floor(i/3)*20}l8-24 22-9 20 11 4 22z" fill="#a1887f" stroke="#6d4c41" stroke-width="3"/>`;$('#ctr').innerHTML=truck('#43a047',l)}
+function drawCT(){let l='';for(let i=0;i<have;i++)l+=`<path d="M${22+(i%3)*42} ${52-Math.floor(i/3)*20}l8-24 22-9 20 11 4 22z" fill="#a1887f" stroke="#6d4c41" stroke-width="3"/>`;$('#ctr').innerHTML=truck(null,l)}
 /* ---------- game 4: vehicle garage ---------- */
-function s4(){$('#gar').innerHTML=TYPES.map(t=>`<div class="vc tap" data-t="${t}"><svg viewBox="-25 -60 310 235">${veh(t)}</svg></div>`).join('');ask('点一点，认识工程车');
+function s4(){$('#gar').innerHTML=TYPES.map(t=>`<div class="vc tap" data-t="${t}"><svg viewBox="-20 -60 300 230">${veh(t)}</svg></div>`).join('');ask('点一点，认识工程车');
  document.querySelectorAll('.vc').forEach(c=>c.onpointerdown=()=>{ac();const t=c.dataset.t;act(c.querySelector('svg'),t);say(V[t].n,150);const nm=$('#nm');nm.textContent=V[t].n;nm.classList.add('show');clearTimeout(nm._t);nm._t=setTimeout(()=>nm.classList.remove('show'),1600)})}
 
 
@@ -251,20 +265,20 @@ let W=JSON.parse(localStorage.getItem('tt_w')||'{}'),gbusy=false;
 const wn=g=>W[g]||0,nC=g=>wn(g)>=3?3:2;
 function shuffle(a){return a.sort(()=>R()-.5)}
 function cardsHTML(list,fn){return list.map((x,i)=>`<div class="card tap" data-i="${i}">${fn(x,i)}</div>`).join('')}
-function choice(g,list,ok,fn,q,onAsk,wrap=''){gbusy=false;const c=$('#c'+g[1]);c.innerHTML=cardsHTML(list,(x,i)=>`<div class="${wrap}" style="width:100%;display:flex;justify-content:center"><svg viewBox="-25 -60 310 235" style="width:${x.sz||90}%">${veh(x.t,x.c)}</svg></div>`);ask(q);if(onAsk)onAsk();
+function choice(g,list,ok,fn,q,onAsk,wrap=''){gbusy=false;const c=$('#c'+g[1]);c.innerHTML=cardsHTML(list,(x,i)=>`<div class="${wrap}" style="width:100%;display:flex;justify-content:center"><svg viewBox="-20 -60 300 230" style="width:${x.sz||90}%">${veh(x.t,x.c)}</svg></div>`);ask(q);if(onAsk)onAsk();
  c.querySelectorAll('.card').forEach(el=>el.onpointerdown=()=>{if(gbusy)return;ac();const x=list[+el.dataset.i];if(ok(x)){gbusy=true;W[g]=wn(g)+1;act(el.querySelector('svg'),x.t);anim(el,'boing',600);setTimeout(()=>celebrate(()=>{if(cur==g)({g5:s5,g6:s6,g7:s7,g8:s8})[g]()},x.t),500)}else{hint();if(onAsk)setTimeout(onAsk,2200);el.animate([{transform:'rotate(0)'},{transform:'rotate(4deg)'},{transform:'rotate(-4deg)'},{transform:'rotate(0)'}],400)}})}
 function s5(){const ts=shuffle([...TYPES]).slice(0,nC('g5')),t=pick(ts);choice('g5',ts.map(x=>({t:x})),x=>x.t==t,null,'哪个是'+V[t].n+'？')}
 let snd6;function s6(){const ts=shuffle([...TYPES]).slice(0,nC('g6')),t=pick(ts);snd6=()=>setTimeout(()=>V[t].s(),1600);choice('g6',ts.map(x=>({t:x})),x=>x.t==t,null,'听一听，是哪辆车的声音？',snd6)}
 $('#replay').onpointerdown=()=>{ac();snd6&&snd6()};
 function s7(){const t=pick(TYPES),big=R()<.5;choice('g7',shuffle([{t,sz:100,b:1},{t,sz:45,b:0}]),x=>x.b==big,null,(big?'点大的':'点小的')+V[t].n)}
-let t8;function s8(){gbusy=false;const ts=shuffle([...TYPES]).slice(0,nC('g8'));t8=pick(ts);const c=$('#c8');c.innerHTML=cardsHTML(ts,x=>`<div class="sil" style="width:100%;display:flex;justify-content:center"><svg viewBox="-25 -60 310 235" style="width:90%">${veh(x)}</svg></div>`);c.querySelectorAll('.card').forEach((el,i)=>el.dataset.t=ts[i]);
+let t8;function s8(){gbusy=false;const ts=shuffle([...TYPES]).slice(0,nC('g8'));t8=pick(ts);const c=$('#c8');c.innerHTML=cardsHTML(ts,x=>`<div class="sil" style="width:100%;display:flex;justify-content:center"><svg viewBox="-20 -60 300 230" style="width:90%">${veh(x)}</svg></div>`);c.querySelectorAll('.card').forEach((el,i)=>el.dataset.t=ts[i]);
  const d=$('#drag8');d.style.transition='none';d.style.transform='';d.style.opacity=1;d.innerHTML=veh(t8);d.classList.add('hint');ask('把'+V[t8].n+'拖到它的影子上');
  c.querySelectorAll('.card').forEach(el=>el.onpointerdown=()=>{ac();if(el.dataset.t==t8)win8(el);else hint()})}
 function win8(el){if(gbusy)return;gbusy=true;W.g8=wn('g8')+1;const d=$('#drag8');d.style.opacity=0;el.querySelector('.sil').classList.remove('sil');act(el.querySelector('svg'),t8);setTimeout(()=>celebrate(()=>{if(cur=='g8')s8()},t8),500)}
 (()=>{const t=$('#drag8');let sx,sy,dr=false;t.addEventListener('pointerdown',e=>{if(gbusy)return;ac();pop();dr=true;sx=e.clientX;sy=e.clientY;t.classList.remove('hint');t.style.transition='none';try{t.setPointerCapture(e.pointerId)}catch(_){}});t.addEventListener('pointermove',e=>{if(dr)t.style.transform=`translate(${e.clientX-sx}px,${e.clientY-sy}px)`});t.addEventListener('pointerup',e=>{if(!dr)return;dr=false;const el=[...document.querySelectorAll('#c8 .card')].find(g=>{const r=g.getBoundingClientRect();return e.clientX>r.left-30&&e.clientX<r.right+30&&e.clientY>r.top-30&&e.clientY<r.bottom+60});t.style.transition='transform .4s';t.style.transform='';t.classList.add('hint');if(el){el.dataset.t==t8?win8(el):hint()}else if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>30)hint();else ask(lastQ)})})();
 /* ---------- progress road ---------- */
 let total=+(localStorage.getItem('tt_tot')||0);const unl=()=>Math.min(TYPES.length,1+Math.floor(total/3));
-function drawRoad(){$('#road').innerHTML=TYPES.map((t,i)=>`<span class="${i<unl()?'':'lock'}"><svg viewBox="-25 -60 310 235">${veh(t)}</svg></span>`).join('')}
+function drawRoad(){$('#road').innerHTML=TYPES.map((t,i)=>`<span class="${i<unl()?'':'lock'}"><svg viewBox="-20 -60 300 230">${veh(t)}</svg></span>`).join('')}
 function addWin(){const before=unl();total++;try{localStorage.setItem('tt_tot',total);localStorage.setItem('tt_w',JSON.stringify(W))}catch(e){}if(unl()>before)say('解锁新车：'+V[TYPES[unl()-1]].n+'！',1700)}
 /* ---------- no zoom / menus ---------- */
 ['contextmenu','gesturestart','dblclick','selectstart'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
