@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="工程车">
+<title>宝宝工程车</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;height:100%;overflow:hidden;touch-action:none;overscroll-behavior:none;font-family:sans-serif;background:linear-gradient(#7fd3ff 0 65%,#8bd06a 65%)}
+.scr{position:fixed;inset:0;display:none;align-items:center;justify-content:center}.on{display:flex}
+#menu{flex-wrap:wrap;gap:4vmin;padding:4vmin}
+.big{width:38vmin;height:38vmin;border-radius:6vmin;border:1.2vmin solid #fff;box-shadow:0 2vmin 0 rgba(0,0,0,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:4vmin;color:#fff;font-weight:bold}
+.big svg{width:70%;height:65%}.big:active{transform:scale(.94)}
+#home,#fs{position:fixed;top:2vmin;width:13vmin;height:13vmin;border-radius:50%;background:#fff;border:none;font-size:7vmin;z-index:9;box-shadow:0 1vmin 0 rgba(0,0,0,.2)}
+#home{left:2vmin;display:none}#fs{right:2vmin}
+.lbl{position:fixed;top:3vmin;left:50%;transform:translateX(-50%);color:#fff;font-size:4.5vmin;font-weight:bold;text-shadow:0 .4vmin #0005}
+svg{overflow:visible}.tap{cursor:pointer}
+#ex{position:absolute;left:5vw;bottom:12vh;width:48vmin}#dt{position:absolute;right:5vw;bottom:12vh;width:48vmin;transition:transform 1.6s ease-in}
+#arm{transform-origin:150px 90px;transition:transform .35s}
+.dig #arm{transform:rotate(25deg)}
+#garages{position:absolute;top:14vh;width:100%;display:flex;justify-content:space-around}
+.gar{width:21vmin;height:21vmin}#ctruck{position:absolute;bottom:8vh;left:50%;width:36vmin;margin-left:-18vmin;touch-action:none}
+#rocks{position:absolute;left:4vw;bottom:10vh;display:flex;flex-wrap:wrap;width:40vw;gap:3vmin}
+.rock{width:17vmin;height:14vmin}#ctr{position:absolute;right:4vw;bottom:10vh;width:50vmin}
+#num{position:absolute;top:12vh;left:50%;transform:translateX(-50%);display:flex;gap:3vmin}
+.dot{width:12vmin;height:12vmin;border-radius:50%;background:#fff;border:1vmin solid #e67e22}.dot.f{background:#e67e22}
+.hint{animation:bob 1s infinite}@keyframes bob{50%{transform:translateY(-2vmin) scale(1.04)}}
+.conf{position:fixed;width:2.5vmin;height:4vmin;top:-5vh;z-index:20;animation:fall 1.8s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+#star{position:fixed;left:50%;top:40%;font-size:30vmin;transform:translate(-50%,-50%) scale(0);transition:transform .4s;z-index:21;pointer-events:none}
+</style></head><body>
+<button id="fs" aria-label="全屏">⛶</button><button id="home">🏠</button><div id="star">⭐</div>
+<div id="menu" class="scr on">
+ <div class="big tap" style="background:#f39c12" data-g="g1"><svg viewBox="0 0 220 140" id="m1"></svg>挖土装车</div>
+ <div class="big tap" style="background:#3498db" data-g="g2"><svg viewBox="0 0 220 140" id="m2"></svg>颜色回家</div>
+ <div class="big tap" style="background:#27ae60" data-g="g3"><svg viewBox="0 0 220 140" id="m3"></svg>数石头 1-3</div>
+</div>
+<div id="g1" class="scr"><div class="lbl">点挖掘机挖土</div>
+ <svg id="ex" class="tap hint" viewBox="0 0 260 170"><rect x="10" y="120" width="150" height="34" rx="17" fill="#333"/><circle cx="30" cy="137" r="11" fill="#777"/><circle cx="85" cy="137" r="11" fill="#777"/><circle cx="140" cy="137" r="11" fill="#777"/><rect x="20" y="70" width="130" height="52" rx="8" fill="#f1c40f"/><rect x="30" y="40" width="55" height="45" rx="6" fill="#f1c40f"/><rect x="38" y="47" width="38" height="28" rx="4" fill="#bde6ff"/>
+ <g id="arm"><rect x="140" y="80" width="80" height="16" rx="8" fill="#e67e22" transform="rotate(-30 150 90)"/><rect x="205" y="35" width="14" height="80" rx="7" fill="#e67e22"/><path d="M195 110h40l-10 30h-25z" fill="#555"/><ellipse id="scoop" cx="215" cy="112" rx="16" ry="7" fill="#8b5a2b" opacity="0"/></g></svg>
+ <svg id="dt" viewBox="0 0 260 170"></svg></div>
+<div id="g2" class="scr"><div class="lbl">把车送回同色车库</div><div id="garages"></div><svg id="ctruck" class="hint" viewBox="0 0 260 170"></svg></div>
+<div id="g3" class="scr"><div class="lbl">把石头装上车</div><div id="num"></div><div id="rocks"></div><svg id="ctr" viewBox="0 0 260 170"></svg></div>
+<script>
+const $=s=>document.querySelector(s);
+function truck(c,load){return `<rect x="10" y="125" width="235" height="12" fill="#444"/><path d="M15 50h140l-12 75H25z" fill="${c}" stroke="#0003" stroke-width="4"/>${load||''}<rect x="160" y="60" width="80" height="65" rx="10" fill="${c}"/><rect x="175" y="70" width="45" height="28" rx="5" fill="#bde6ff"/><circle cx="55" cy="140" r="22" fill="#333"/><circle cx="55" cy="140" r="9" fill="#ccc"/><circle cx="200" cy="140" r="22" fill="#333"/><circle cx="200" cy="140" r="9" fill="#ccc"/>`}
+let AC;function ac(){if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)()}if(AC.state=='suspended')AC.resume();return AC}
+function tone(f,d,t='square',v=.15,w=0){const a=ac(),o=a.createOscillator(),g=a.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,a.currentTime+w);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+w+d);o.connect(g).connect(a.destination);o.start(a.currentTime+w);o.stop(a.currentTime+w+d)}
+const horn=()=>{tone(392,.3,'sawtooth',.12);tone(330,.5,'sawtooth',.12,.35)},pop=(n=0)=>tone(500+n*120,.15,'triangle',.25),dig=()=>{tone(110,.3,'sawtooth',.15);tone(80,.3,'square',.1,.15)},cheer=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.25,'triangle',.2,i*.12));
+function celebrate(next){cheer();setTimeout(horn,500);const cs=['#e74c3c','#f1c40f','#3498db','#2ecc71','#9b59b6'];for(let i=0;i<50;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=cs[i%5];d.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}$('#star').style.transform='translate(-50%,-50%) scale(1)';setTimeout(()=>{$('#star').style.transform='translate(-50%,-50%) scale(0)'},1300);setTimeout(next,2400)}
+$('#m1').innerHTML=truck('#f39c12','<path d="M30 50q60-40 120 0z" fill="#8b5a2b"/>');$('#m2').innerHTML=truck('#e74c3c');$('#m3').innerHTML=truck('#2ecc71','<circle cx="60" cy="45" r="15" fill="#888"/><circle cx="100" cy="45" r="15" fill="#888"/>');
+let cur;function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));$('#'+id).classList.add('on');$('#home').style.display=id=='menu'?'none':'block';cur=id;({g1:s1,g2:s2,g3:s3}[id]||(()=>{}))()}
+document.querySelectorAll('.big').forEach(b=>b.addEventListener('pointerdown',()=>{ac();pop();show(b.dataset.g)}));
+$('#home').onpointerdown=()=>{pop();show('menu')};
+$('#fs').onpointerdown=()=>{ac();const d=document.documentElement,f=d.requestFullscreen||d.webkitRequestFullscreen;if(document.fullscreenElement||document.webkitFullscreenElement){(document.exitFullscreen||document.webkitExitFullscreen).call(document)}else if(f)f.call(d)};
+// game1
+let fill=0,busy=false;function s1(){fill=0;busy=false;const dt=$('#dt');dt.style.transition='none';dt.style.transform='translateX(0)';drawDT()}
+function drawDT(){let l='';for(let i=0;i<fill;i++)l+=`<ellipse cx="${50+i*30}" cy="${55-i*4}" rx="${30+i*6}" ry="${12+i*5}" fill="#8b5a2b"/>`;$('#dt').innerHTML=truck('#f39c12',l)}
+$('#ex').addEventListener('pointerdown',()=>{if(busy)return;busy=true;dig();const e=$('#ex');e.classList.add('dig');$('#scoop').setAttribute('opacity',1);setTimeout(()=>{e.classList.remove('dig');setTimeout(()=>{$('#scoop').setAttribute('opacity',0);fill++;pop(fill);drawDT();if(fill>=3){setTimeout(()=>{horn();const dt=$('#dt');dt.style.transition='transform 1.6s ease-in';dt.style.transform='translateX(110vw)';tone(90,1.5,'sawtooth',.1);celebrate(()=>{if(cur=='g1')s1()})},300)}else busy=false},350)},350)});
+// game2
+const COLS=['#e74c3c','#f1c40f','#3498db','#2ecc71'];let tc,last=-1;
+function s2(){$('#garages').innerHTML=COLS.map((c,i)=>`<svg class="gar tap" data-i="${i}" viewBox="0 0 100 100"><path d="M5 40L50 5l45 35v55H5z" fill="${c}" stroke="#fff" stroke-width="5"/><rect x="22" y="48" width="56" height="47" fill="#3338"/></svg>`).join('');do tc=Math.floor(Math.random()*4);while(tc==last);last=tc;const t=$('#ctruck');t.style.transition='none';t.style.transform='';t.innerHTML=truck(COLS[tc]);t.classList.add('hint');document.querySelectorAll('.gar').forEach(g=>g.onpointerdown=()=>{if(+g.dataset.i==tc)go(g);else{tone(200,.15,'sine',.15);g.animate([{transform:'translateX(0)'},{transform:'translateX(2vmin)'},{transform:'translateX(-2vmin)'},{transform:'translateX(0)'}],300)}})}
+function go(g){const t=$('#ctruck'),r=g.getBoundingClientRect(),q=t.getBoundingClientRect();t.classList.remove('hint');t.style.transition='transform .8s';t.style.transform=`translate(${r.left+r.width/2-q.left-q.width/2+(parseFloat(t.dataset.dx)||0)}px,${r.top+r.height/2-q.top-q.height/2}px) scale(.5)`;t.dataset.dx=0;celebrate(()=>{if(cur=='g2')s2()})}
+(()=>{const t=$('#ctruck');let sx,sy,drag=false;t.addEventListener('pointerdown',e=>{ac();pop();drag=true;sx=e.clientX;sy=e.clientY;t.style.transition='none';t.setPointerCapture(e.pointerId)});t.addEventListener('pointermove',e=>{if(drag)t.style.transform=`translate(${e.clientX-sx}px,${e.clientY-sy}px)`});t.addEventListener('pointerup',e=>{if(!drag)return;drag=false;const g=[...document.querySelectorAll('.gar')].find(g=>{const r=g.getBoundingClientRect();return e.clientX>r.left-40&&e.clientX<r.right+40&&e.clientY>r.top-40&&e.clientY<r.bottom+60});if(g&&+g.dataset.i==tc){t.style.transform='';go(g)}else{t.style.transition='transform .4s';t.style.transform=''}})})();
+// game3
+let need,have;function s3(){need=1+Math.floor(Math.random()*3);have=0;$('#num').innerHTML='<div class="dot"></div>'.repeat(need);$('#rocks').innerHTML='<svg class="rock tap hint" viewBox="0 0 100 80"><path d="M10 70L20 25 50 8 85 22 95 70z" fill="#95a5a6" stroke="#7f8c8d" stroke-width="5"/></svg>'.repeat(need);drawCT();document.querySelectorAll('.rock').forEach(r=>r.onpointerdown=()=>{if(r.dataset.u)return;r.dataset.u=1;r.style.visibility='hidden';have++;pop(have);for(let i=0;i<have;i++)tone(600+i*150,.12,'triangle',.2,i*.18);$('#num').children[have-1].classList.add('f');drawCT();if(have==need)celebrate(()=>{if(cur=='g3')s3()})})}
+function drawCT(){let l='';for(let i=0;i<have;i++)l+=`<path d="M${30+i*38} 50l8-22 20-8 18 10 4 20z" fill="#95a5a6" stroke="#7f8c8d" stroke-width="3"/>`;$('#ctr').innerHTML=truck('#2ecc71',l)}
+document.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('gesturestart',e=>e.preventDefault());document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});document.addEventListener('dblclick',e=>e.preventDefault());
+</script></body></html>
