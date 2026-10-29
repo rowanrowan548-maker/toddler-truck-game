@@ -120,7 +120,8 @@ body.locked #home,body.locked #topbar{display:none!important}
 #lk{position:fixed;right:2vmin;top:2vmin;width:9vmin;height:9vmin;z-index:999;display:none;opacity:.6;touch-action:none}
 body.locked #lk{display:block}#lk.h{opacity:1}
 #lk circle.p{stroke-dasharray:113;stroke-dashoffset:113;transform:rotate(-90deg);transform-origin:center}
-</style></head><body>
+</style><link rel="stylesheet" href="play.css">
+</head><body>
 <div id="bg">
  <svg class="abs hill" style="opacity:.7;animation-duration:90s" viewBox="0 0 2200 300" preserveAspectRatio="none"><path d="M0 300 Q150 40 350 180 T750 120 T1100 160 T1450 60 T1800 170 T2200 120V300z" fill="#7cc9a0"/></svg>
  <svg class="abs hill" style="bottom:20vh;animation-duration:50s" viewBox="0 0 2200 300" preserveAspectRatio="none"><path d="M0 300 Q200 90 420 200 T850 170 T1100 210 T1500 120 T1900 200 T2200 170V300z" fill="#5fb85a"/></svg>
@@ -287,8 +288,9 @@ function drawRoad(){$('#road').innerHTML=TYPES.map((t,i)=>`<span class="${i<unl(
 function addWin(){const before=unl();total++;try{localStorage.setItem('tt_tot',total);localStorage.setItem('tt_w',JSON.stringify(W))}catch(e){}if(unl()>before)say('解锁新车：'+V[TYPES[unl()-1]].n+'！',1700)}
 /* ---------- no zoom / menus ---------- */
 ['contextmenu','gesturestart','dblclick','selectstart'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
-drawRoad();if(location.hash)show(location.hash.slice(1));
+drawRoad();addEventListener('load',()=>{if(location.hash)show(location.hash.slice(1))});
 </script>
+<script src="play.js"></script>
 <svg id="lk" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="#0005"/><circle class="p" cx="22" cy="22" r="18" fill="none" stroke="#ffd23f" stroke-width="4"/><text x="22" y="29" font-size="18" text-anchor="middle">🔒</text></svg>
 <script>
 (function(){const B=document.body,lk=$('#lk'),ring=lk.querySelector('.p');let locked=false,t0=0,raf=0;
