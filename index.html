@@ -55,7 +55,7 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 .dance{animation:dance .5s ease-in-out infinite alternate}@keyframes dance{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-2vmin) rotate(3deg)}}
 .hint{animation:hint 1s ease-in-out infinite}@keyframes hint{50%{transform:translateY(-2vmin) scale(1.05)}}
 /* game1 */
-#ex{position:absolute;left:3vw;bottom:8vh;width:50vmin}#dt{position:absolute;right:3vw;bottom:8vh;width:50vmin}
+#ex{position:absolute;left:2vw;bottom:8vh;width:48vmin}#dt{position:absolute;right:3vw;bottom:8vh;width:50vmin}
 #arm{transform-origin:150px 90px;transition:transform .35s}.dig #arm{transform:rotate(28deg)}
 #hand{position:absolute;font-size:10vmin;left:22vmin;bottom:42vh;animation:hint 1s infinite;pointer-events:none}
 /* game2 */
@@ -76,6 +76,23 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 #bigtruck{position:absolute;left:50%;top:50%;width:46vmin;margin:-20vmin 0 0 -23vmin;transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.6,1)}
 #bigtruck.show{transform:scale(1)}#bigtruck svg{width:100%;animation:dance .3s ease-in-out infinite alternate}
 #stk{position:absolute;left:50%;top:18%;font-size:18vmin;transform:translate(-50%,-50%) scale(0);transition:transform .4s cubic-bezier(.3,1.6,.6,1)}#stk.show{transform:translate(-50%,-50%) scale(1) rotate(360deg)}
+
+.big{width:30vmin;height:30vmin}#btns{gap:3vmin}
+.big:nth-child(4){animation-delay:1.2s}
+#gar{position:absolute;top:13vh;left:3vw;right:3vw;bottom:2vh;display:grid;grid-template-columns:repeat(auto-fill,minmax(26vmin,1fr));gap:2.5vmin;overflow:hidden;pointer-events:auto}
+.vc{background:#fffd;border-radius:4vmin;border:.8vmin solid #ffd23f;box-shadow:0 1vmin 0 #0003;display:flex;align-items:center;justify-content:center;padding:1vmin}
+.vc svg{width:100%;height:100%;max-height:22vmin}.vc:active{transform:scale(.94)}
+.act{transform-box:view-box}
+.go .act{animation:var(--a) 1.2s ease-in-out}
+.go{animation:dance .3s ease-in-out 4 alternate}
+.drum{transform-box:fill-box;transform-origin:center;animation:spin 3s linear infinite}.go .drum{animation-duration:.4s}
+.spray{opacity:0}.go .spray{animation:spr 1.2s}@keyframes spr{20%,80%{opacity:1}}
+.siren{animation:blinkc .5s steps(1) infinite}@keyframes blinkc{50%{fill:#2196f3}}
+@keyframes tip{50%{transform:rotate(-32deg)}}@keyframes digA{50%{transform:rotate(28deg)}}@keyframes push{50%{transform:translateX(22px)}}
+@keyframes lift{50%{transform:rotate(-22deg)}}@keyframes up{50%{transform:translateY(-45px)}}@keyframes drill{50%{transform:translateY(28px)}}
+@keyframes scoop{50%{transform:rotate(-30deg)}}@keyframes rollA{50%{transform:translateX(18px)}}
+#nm{position:fixed;left:50%;bottom:4vh;transform:translateX(-50%) scale(0);background:#fff;border-radius:5vmin;padding:1.5vmin 5vmin;font-size:7vmin;font-weight:900;color:#e65100;z-index:35;transition:transform .3s cubic-bezier(.3,1.6,.6,1);pointer-events:none}#nm.show{transform:translateX(-50%) scale(1)}
+#rocks{width:46vw}.rock{width:15vmin;height:13vmin}
 </style></head><body>
 <div id="bg">
  <svg class="abs hill" style="opacity:.7;animation-duration:90s" viewBox="0 0 2200 300" preserveAspectRatio="none"><path d="M0 300 Q150 40 350 180 T750 120 T1100 160 T1450 60 T1800 170 T2200 120V300z" fill="#7cc9a0"/></svg>
@@ -99,75 +116,115 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 <div id="home" class="rb tap">🏠</div>
 <div id="topbar"><div id="mute" class="rb tap">🎵</div><div id="fs" class="rb tap">⛶</div></div>
 <div id="menu" class="scr on"><div id="drivers"></div><div id="title">🚧 宝宝工程车 🚧</div>
- <div id="btns"><div class="big" style="background:linear-gradient(#ffb74d,#f57c00)" data-g="g1"><svg viewBox="-10 -10 280 190" id="m1"></svg>挖土装车</div>
- <div class="big" style="background:linear-gradient(#64b5f6,#1e88e5)" data-g="g2"><svg viewBox="-10 -10 280 190" id="m2"></svg>颜色回家</div>
- <div class="big" style="background:linear-gradient(#81c784,#2e7d32)" data-g="g3"><svg viewBox="-10 -10 280 190" id="m3"></svg>数石头 1-3</div></div>
+ <div id="btns"><div class="big" style="background:linear-gradient(#ffb74d,#f57c00)" data-g="g1"><svg viewBox="-10 -10 290 190" id="m1"></svg>挖土装车</div>
+ <div class="big" style="background:linear-gradient(#64b5f6,#1e88e5)" data-g="g2"><svg viewBox="-10 -10 290 190" id="m2"></svg>颜色回家</div>
+ <div class="big" style="background:linear-gradient(#81c784,#2e7d32)" data-g="g3"><svg viewBox="-10 -10 290 190" id="m3"></svg>数石头</div>
+ <div class="big" style="background:linear-gradient(#f06292,#ad1457)" data-g="g4"><svg viewBox="-10 -70 290 250" id="m4"></svg>工程车车库</div></div>
  <div id="stickers"></div></div>
-<div id="g1" class="scr"><div class="lbl">点挖掘机挖土 👆</div><div id="hand">👆</div><svg id="ex" class="tap" viewBox="0 0 260 170"></svg><svg id="dt" viewBox="0 0 260 170"></svg></div>
+<div id="g1" class="scr"><div class="lbl">点挖掘机挖土</div><div id="hand">👆</div><svg id="ex" class="tap" viewBox="0 0 260 170"></svg><svg id="dt" viewBox="0 0 260 170"></svg></div>
 <div id="g2" class="scr"><div class="lbl">把车送回同色车库</div><div id="garages"></div><svg id="ctruck" class="hint tap" viewBox="0 0 260 170"></svg></div>
 <div id="g3" class="scr"><div class="lbl">把石头装上车</div><div id="num"></div><div id="rocks"></div><svg id="ctr" viewBox="0 0 260 170"></svg></div>
+<div id="g4" class="scr"><div class="lbl">点一点，认识工程车</div><div id="gar"></div></div>
+<div id="nm"></div>
 <div id="cel"><div id="bigtruck"></div><div id="stk"></div></div>
 <script>
-const $=s=>document.querySelector(s),R=Math.random;
-function shade(c){return {'#e53935':'#b71c1c','#fdd835':'#f9a825','#1e88e5':'#0d47a1','#43a047':'#1b5e20','#ff9800':'#e65100','#ab47bc':'#6a1b9a'}[c]||'#0005'}
+const $=s=>document.querySelector(s),R=Math.random,pick=a=>a[Math.floor(R()*a.length)];
+const DK={'#e53935':'#b71c1c','#fdd835':'#f9a825','#1e88e5':'#0d47a1','#43a047':'#1b5e20','#ff9800':'#e65100','#ab47bc':'#6a1b9a','#00acc1':'#006064','#d32f2f':'#7f0000'};const shade=c=>DK[c]||'#0005';
 function face(x,y){return `<g><circle cx="${x}" cy="${y}" r="11" fill="#fff" stroke="#333" stroke-width="2"/><circle cx="${x+22}" cy="${y}" r="11" fill="#fff" stroke="#333" stroke-width="2"/><g class="lid"><circle cx="${x+3}" cy="${y+1}" r="6" fill="#222"/><circle cx="${x+25}" cy="${y+1}" r="6" fill="#222"/><circle cx="${x+5}" cy="${y-2}" r="2" fill="#fff"/><circle cx="${x+27}" cy="${y-2}" r="2" fill="#fff"/></g><circle cx="${x-6}" cy="${y+16}" r="5" fill="#ff8a80" opacity=".8"/><circle cx="${x+30}" cy="${y+16}" r="5" fill="#ff8a80" opacity=".8"/><path d="M${x+2} ${y+16}q9 10 18 0" stroke="#333" stroke-width="3" fill="#c62828" stroke-linecap="round"/></g>`}
-function wheel(cx){return `<circle cx="${cx}" cy="140" r="22" fill="#263238"/><g class="wh"><circle cx="${cx}" cy="140" r="11" fill="#cfd8dc"/><rect x="${cx-2}" y="129" width="4" height="22" fill="#78909c"/><rect x="${cx-11}" y="138" width="22" height="4" fill="#78909c"/></g>`}
+function wheel(cx,r=22){return `<circle cx="${cx}" cy="140" r="${r}" fill="#263238"/><g class="wh"><circle cx="${cx}" cy="140" r="${r/2}" fill="#cfd8dc"/><rect x="${cx-2}" y="${140-r/2}" width="4" height="${r}" fill="#78909c"/><rect x="${cx-r/2}" y="138" width="${r}" height="4" fill="#78909c"/></g>`}
 const puff=(x,y)=>`<circle class="puff" cx="${x}" cy="${y}" r="7" fill="#cfd8dc"/><circle class="puff puff2" cx="${x}" cy="${y}" r="7" fill="#cfd8dc"/>`;
-function truck(c,load){return `<ellipse cx="128" cy="164" rx="120" ry="7" fill="#0003"/>${puff(8,110)}<rect x="10" y="120" width="235" height="12" rx="4" fill="#455a64"/><path d="M15 50h140l-12 75H25z" fill="${c}" stroke="${shade(c)}" stroke-width="5" stroke-linejoin="round"/><path d="M28 62h118" stroke="#fff6" stroke-width="5"/>${load||''}<rect x="158" y="55" width="86" height="72" rx="14" fill="${c}" stroke="${shade(c)}" stroke-width="5"/><rect x="172" y="47" width="10" height="10" rx="3" fill="#ff5252"/>${face(188,82)}<circle cx="242" cy="115" r="5" fill="#fff59d"/>${wheel(55)}${wheel(205)}`}
-function excav(){return `<ellipse cx="100" cy="162" rx="100" ry="7" fill="#0003"/><rect x="10" y="120" width="150" height="38" rx="19" fill="#37474f"/><g class="wh"><circle cx="32" cy="139" r="11" fill="#90a4ae"/></g><g class="wh"><circle cx="85" cy="139" r="11" fill="#90a4ae"/></g><g class="wh"><circle cx="138" cy="139" r="11" fill="#90a4ae"/></g>${puff(30,40)}<rect x="22" y="40" width="10" height="20" fill="#555"/><rect x="18" y="66" width="135" height="56" rx="12" fill="#fdd835" stroke="#f9a825" stroke-width="5"/><rect x="65" y="28" width="70" height="56" rx="10" fill="#fdd835" stroke="#f9a825" stroke-width="5"/>${face(80,55)}<polygon class="flag" points="70,28 70,4 88,10 70,16" fill="#e53935"/>
- <g id="arm"><rect x="140" y="80" width="80" height="18" rx="9" fill="#ff9800" stroke="#e65100" stroke-width="3" transform="rotate(-30 150 90)"/><rect x="205" y="35" width="16" height="80" rx="8" fill="#ff9800" stroke="#e65100" stroke-width="3"/><path d="M193 108h44l-10 32h-26z" fill="#607d8b" stroke="#37474f" stroke-width="3"/><ellipse id="scoop" cx="215" cy="108" rx="18" ry="8" fill="#8d5524" opacity="0"/></g>`}
-const rockSvg=`<svg class="rock tap hint" viewBox="0 0 100 80"><path d="M8 72L18 25 50 6 86 20 96 72z" fill="#a1887f" stroke="#6d4c41" stroke-width="5" stroke-linejoin="round"/><circle cx="40" cy="42" r="4" fill="#333"/><circle cx="62" cy="42" r="4" fill="#333"/><path d="M42 54q9 7 18 0" stroke="#333" stroke-width="3" fill="none"/></svg>`;
-/* ---------- audio ---------- */
+const track=(x,w)=>`<rect x="${x}" y="120" width="${w}" height="38" rx="19" fill="#37474f"/>${[0,1,2].map(i=>`<g class="wh"><circle cx="${x+20+i*(w-40)/2}" cy="139" r="11" fill="#90a4ae"/></g>`).join('')}`;
+const cab=(c,x=158,y=55)=>`<rect x="${x}" y="${y}" width="86" height="72" rx="14" fill="${c}" stroke="${shade(c)}" stroke-width="5"/><rect x="${x+14}" y="${y-8}" width="10" height="10" rx="3" fill="#ff5252"/>${face(x+30,y+27)}<circle cx="${x+84}" cy="${y+60}" r="5" fill="#fff59d"/>`;
+const base=(inner,c,opt={})=>`<ellipse cx="128" cy="164" rx="122" ry="7" fill="#0003"/>${puff(8,110)}${opt.tr?track(15,230):`<rect x="10" y="120" width="235" height="12" rx="4" fill="#455a64"/>`}${inner}${cab(c,opt.cx,opt.cy)}${opt.tr?'':wheel(55)+(opt.nofw?'':wheel(205))}`;
+const st=(c)=>`fill="${c}" stroke="${shade(c)}" stroke-width="5" stroke-linejoin="round"`;
+const V={
+dump:{n:'翻斗车',c:'#ff9800',a:'tip',d:(c,l='')=>base(`<g class="act" style="--a:tip;transform-origin:20px 120px"><path d="M15 50h140l-12 75H25z" ${st(c)}/><path d="M28 62h118" stroke="#fff6" stroke-width="5"/>${l}</g>`,c),s:()=>{tone(300,.5,'sawtooth',.08,0,150);tone(90,.4,'square',.1,.5)}},
+excavator:{n:'挖掘机',c:'#fdd835',d:c=>`<ellipse cx="110" cy="162" rx="110" ry="7" fill="#0003"/>${track(10,150)}${puff(30,40)}<rect x="22" y="40" width="10" height="20" fill="#555"/><rect x="18" y="66" width="135" height="56" rx="12" ${st(c)}/><rect x="65" y="28" width="70" height="56" rx="10" ${st(c)}/>${face(80,55)}<polygon class="flag" points="70,28 70,4 88,10 70,16" fill="#e53935"/><g id="arm" class="act" style="--a:digA;transform-origin:150px 90px"><rect x="140" y="80" width="80" height="18" rx="9" fill="#ff9800" stroke="#e65100" stroke-width="3" transform="rotate(-30 150 90)"/><rect x="205" y="35" width="16" height="80" rx="8" fill="#ff9800" stroke="#e65100" stroke-width="3"/><path d="M193 108h44l-10 32h-26z" fill="#607d8b" stroke="#37474f" stroke-width="3"/><ellipse id="scoop" cx="215" cy="108" rx="18" ry="8" fill="#8d5524" opacity="0"/></g>`,s:()=>{tone(120,.35,'sawtooth',.12,0,60);tone(80,.3,'square',.08,.2)}},
+mixer:{n:'搅拌车',c:'#1e88e5',d:c=>base(`<g class="drum"><ellipse cx="85" cy="80" rx="72" ry="42" fill="#eceff1" stroke="#90a4ae" stroke-width="5"/><path d="M30 60l30 50M65 42l40 76M105 42l30 60" stroke="${c}" stroke-width="10" stroke-linecap="round"/></g>`,c),s:()=>{for(let i=0;i<6;i++)tone(200+(i%2)*60,.15,'triangle',.12,i*.15)}},
+bulldozer:{n:'推土机',c:'#fdd835',d:c=>base(`<rect x="25" y="70" width="135" height="52" rx="10" ${st(c)}/><g class="act" style="--a:push"><rect x="246" y="62" width="22" height="80" rx="6" fill="#78909c" stroke="#37474f" stroke-width="4"/><rect x="236" y="100" width="14" height="10" fill="#37474f"/></g>`,c,{tr:1}),s:()=>{tone(90,.8,'sawtooth',.12,0,140);tone(60,.4,'square',.08,.3)}},
+crane:{n:'吊车',c:'#e53935',d:c=>base(`<rect x="15" y="85" width="145" height="40" rx="8" ${st(c)}/><g class="act" style="--a:lift;transform-origin:140px 80px"><rect x="-10" y="70" width="160" height="16" rx="6" fill="#fdd835" stroke="#f9a825" stroke-width="4" transform="rotate(25 140 80)"/><line x1="-5" y1="15" x2="-5" y2="60" stroke="#555" stroke-width="3"/><rect x="-18" y="60" width="26" height="22" rx="3" fill="#8d6e63"/></g>`,c),s:()=>{tone(300,1,'sine',.15,0,700);tone(1200,.1,'triangle',.1,1)}},
+roller:{n:'压路机',c:'#43a047',d:c=>`<ellipse cx="128" cy="164" rx="122" ry="7" fill="#0003"/>${puff(60,40)}<rect x="40" y="35" width="10" height="30" fill="#555"/><rect x="20" y="65" width="150" height="58" rx="12" ${st(c)}/>${wheel(60,24)}<g class="act" style="--a:rollA"><rect x="170" y="108" width="80" height="58" rx="29" fill="#78909c" stroke="#37474f" stroke-width="5"/><rect x="180" y="80" width="10" height="35" fill="#37474f"/></g>${cab(c,80,8)}`,s:()=>{for(let i=0;i<4;i++)tone(70,.2,'square',.15,i*.22)}},
+loader:{n:'装载机',c:'#ff9800',d:c=>base(`<rect x="20" y="75" width="140" height="50" rx="12" ${st(c)}/><g class="act" style="--a:scoop;transform-origin:200px 95px"><rect x="200" y="88" width="60" height="14" rx="6" fill="#455a64"/><path d="M245 80h35l-6 50h-34z" fill="#78909c" stroke="#37474f" stroke-width="4"/></g>`,c),s:()=>{tone(150,.3,'sawtooth',.12,0,300);tone(300,.3,'sawtooth',.1,.35,150)}},
+forklift:{n:'叉车',c:'#fdd835',d:c=>base(`<rect x="40" y="80" width="120" height="45" rx="10" ${st(c)}/><rect x="252" y="20" width="8" height="125" fill="#455a64"/><g class="act" style="--a:up"><rect x="258" y="130" width="40" height="7" fill="#37474f"/><rect x="262" y="96" width="34" height="34" fill="#d7a35e" stroke="#8d6e63" stroke-width="3"/><path d="M262 113h34M279 96v34" stroke="#8d6e63" stroke-width="2"/></g>`,c),s:()=>{tone(400,.6,'square',.06,0,900);tone(900,.1,'triangle',.15,.7)}},
+drill:{n:'打桩机',c:'#ab47bc',d:c=>base(`<rect x="20" y="80" width="140" height="45" rx="10" ${st(c)}/><rect x="85" y="-50" width="16" height="135" fill="#fdd835" stroke="#f9a825" stroke-width="3"/><g class="act" style="--a:drill"><path d="M93 60l-14 0 14 80 14-80z" fill="#90a4ae" stroke="#37474f" stroke-width="3"/><path d="M82 75l22 8M84 95l18 8M87 115l13 6" stroke="#37474f" stroke-width="3"/></g>`,c),s:()=>{for(let i=0;i<8;i++)tone(180,.08,'square',.12,i*.1,90)}},
+water:{n:'洒水车',c:'#00acc1',d:c=>base(`<rect x="15" y="55" width="140" height="68" rx="34" ${st(c)}/><path d="M40 70q30-10 90 0" stroke="#fff8" stroke-width="6" fill="none"/><g class="spray">${[0,1,2,3,4].map(i=>`<circle cx="${-5-i*8}" cy="${100+(i%2)*14-i*3}" r="5" fill="#4fc3f7"/>`).join('')}<path d="M10 105q-30-10-50 10M10 112q-30 5-45 25" stroke="#4fc3f7" stroke-width="5" fill="none"/></g>`,c),s:()=>{for(let i=0;i<10;i++)tone(800+R()*900,.06,'sine',.08,i*.07)}},
+tow:{n:'拖车',c:'#43a047',d:c=>base(`<rect x="30" y="85" width="130" height="40" rx="8" ${st(c)}/><g class="act" style="--a:lift;transform-origin:140px 85px"><rect x="20" y="78" width="125" height="12" rx="5" fill="#78909c" transform="rotate(20 140 85)"/><path d="M25 50v40q0 12-10 10" stroke="#555" stroke-width="5" fill="none"/></g>`,c),s:()=>{tone(500,.2,'square',.08);tone(350,.4,'square',.08,.25)}},
+fire:{n:'消防车',c:'#d32f2f',d:c=>base(`<rect x="15" y="65" width="140" height="58" rx="10" ${st(c)}/><path d="M30 80h110M30 100h110" stroke="#fff8" stroke-width="5"/><g class="act" style="--a:lift;transform-origin:150px 60px"><rect x="10" y="52" width="145" height="12" fill="#cfd8dc" stroke="#78909c" stroke-width="3"/><path d="M25 52v12M45 52v12M65 52v12M85 52v12M105 52v12M125 52v12" stroke="#78909c" stroke-width="3"/></g><circle class="siren" cx="210" cy="45" r="8" fill="#ff1744"/>`,c,{cy:58}),s:()=>{for(let i=0;i<4;i++){tone(700,.25,'square',.06,i*.5);tone(950,.25,'square',.06,i*.5+.25)}}}
+};
+const TYPES=Object.keys(V);
+function veh(t,c,l){return V[t].d(c||V[t].c,l)}
+function truck(c,l){return veh('dump',c,l)}
+/* ---------- audio + voice ---------- */
 let AC,master,muted=false,mus=null;
 function ac(){if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.connect(AC.destination);startMusic()}if(AC.state=='suspended')AC.resume();return AC}
 function tone(f,d,t='square',v=.15,w=0,f2){const a=ac(),o=a.createOscillator(),g=a.createGain(),s=a.currentTime+w;o.type=t;o.frequency.setValueAtTime(f,s);if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g).connect(master);o.start(s);o.stop(s+d+.05)}
+function applause(){const a=ac(),len=a.sampleRate*1.4,b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++){const ph=(i/a.sampleRate*14)%1;d[i]=(R()*2-1)*(ph<.25?1:.15)*(1-i/len)}const s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain();f.type='bandpass';f.frequency.value=1800;g.gain.value=.35;s.buffer=b;s.connect(f).connect(g).connect(master);s.start()}
+let zhV=null;function loadV(){const vs=speechSynthesis.getVoices();zhV=vs.find(v=>/zh[-_]CN/i.test(v.lang))||vs.find(v=>/^zh/i.test(v.lang))||null}if(window.speechSynthesis){loadV();speechSynthesis.onvoiceschanged=loadV}
+function say(t,delay=0){if(!window.speechSynthesis)return;setTimeout(()=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';if(zhV)u.voice=zhV;u.rate=.9;u.pitch=1.25;u.volume=1;speechSynthesis.speak(u)}catch(e){}},delay)}
+const PRAISE=['真棒！','太厉害了！','宝宝好聪明！','答对啦！','哇，你真行！','给你点个赞！','好厉害呀！','做得真好！'];
+const praise=()=>{say(pick(PRAISE));chime();setTimeout(applause,200)};
+const chime=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.3,'triangle',.18,i*.1));
+let lastQ='';function ask(q,d=0){lastQ=q;say(q,d)}
+function hint(){tone(660,.2,'sine',.1);tone(880,.25,'sine',.1,.15);say('再试试看～'+lastQ)}
 const horn=()=>{tone(392,.3,'sawtooth',.1);tone(330,.5,'sawtooth',.1,.35)},pop=(n=0)=>tone(500+n*120,.15,'triangle',.25),
-dig=()=>{tone(120,.35,'sawtooth',.12,0,60);tone(80,.3,'square',.08,.15)},cheer=()=>[523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.25,'triangle',.2,i*.11)),
 boing=()=>tone(200,.4,'sine',.3,0,700),tweet=()=>{tone(2000,.08,'sine',.15,0,2600);tone(2200,.08,'sine',.15,.12,3000)},slide=()=>tone(900,.4,'sine',.2,0,250),bang=()=>tone(150,.3,'triangle',.25,0,60);
 const MEL=[523,587,659,784,659,587,523,0,659,784,880,784,659,587,523,0,392,440,523,587,659,587,523,0,784,659,587,523,587,523,0,0],BASS=[131,0,196,0,175,0,196,0];
-function startMusic(){let i=0;const mg=AC.createGain();mg.gain.value=.5;mg.connect(master);mus=mg;setInterval(()=>{if(muted||document.hidden)return;const n=MEL[i%MEL.length],t=AC.currentTime;if(n){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=n;g.gain.setValueAtTime(.06,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(mg);o.start(t);o.stop(t+.35)}if(i%4==0&&BASS[(i/4)%8]){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=BASS[(i/4)%8];g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.6);o.connect(g).connect(mg);o.start(t);o.stop(t+.65)}i++},280)}
-$('#mute').onpointerdown=()=>{ac();muted=!muted;$('#mute').textContent=muted?'🔇':'🎵';mus.gain.value=muted?0:.5};
-/* ---------- background build + surprises ---------- */
+function startMusic(){let i=0;const mg=AC.createGain();mg.gain.value=.35;mg.connect(master);mus=mg;setInterval(()=>{if(muted||document.hidden)return;const n=MEL[i%MEL.length],t=AC.currentTime;if(n){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=n;g.gain.setValueAtTime(.05,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(mg);o.start(t);o.stop(t+.35)}if(i%4==0&&BASS[(i/4)%8]){const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=BASS[(i/4)%8];g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.001,t+.6);o.connect(g).connect(mg);o.start(t);o.stop(t+.65)}i++},300)}
+$('#mute').onpointerdown=()=>{ac();muted=!muted;$('#mute').textContent=muted?'🔇':'🎵';mus.gain.value=muted?0:.35};
+/* ---------- background ---------- */
 function anim(el,c,ms=700){el.classList.remove(c);void el.getBoundingClientRect();el.classList.add(c);setTimeout(()=>el.classList.remove(c),ms)}
 $('#clouds').innerHTML=[0,1,2,3].map(i=>`<div class="abs cloud" style="top:${4+i*7}vh;animation-duration:${40+i*12}s;animation-delay:${-i*14}s"><svg class="tap" viewBox="0 0 120 60"><g fill="#fff"><circle cx="35" cy="35" r="22"/><circle cx="62" cy="25" r="25"/><circle cx="88" cy="36" r="20"/><rect x="20" y="35" width="85" height="22" rx="11"/></g>${i%2?'':'<circle cx="52" cy="38" r="3" fill="#90a4ae"/><circle cx="72" cy="38" r="3" fill="#90a4ae"/><path d="M56 46q6 5 12 0" stroke="#90a4ae" stroke-width="2.5" fill="none"/>'}</svg></div>`).join('');
 $('#birds').innerHTML=[0,1,2].map(i=>`<div class="abs bird" style="top:${10+i*6}vh;animation-duration:${14+i*5}s;animation-delay:${-i*6}s"><svg class="tap" viewBox="0 0 40 30"><ellipse cx="20" cy="18" rx="12" ry="8" fill="${['#ef5350','#7e57c2','#26a69a'][i]}"/><circle cx="10" cy="14" r="6" fill="${['#ef5350','#7e57c2','#26a69a'][i]}"/><circle cx="9" cy="13" r="1.6" fill="#000"/><path d="M4 14l-4 2 4 1z" fill="#ffa000"/><path class="wing" d="M18 15q6-14 12 0z" fill="#fff9"/></svg></div>`).join('');
 $('#cones').innerHTML=[6,40,70,92].map(x=>`<svg class="abs cone tap" style="left:${x}vw" viewBox="0 0 40 50"><path d="M20 2L36 44H4z" fill="#ff6d00" stroke="#bf360c" stroke-width="2"/><path d="M12 22h16l3 8H9z" fill="#fff"/><rect x="0" y="43" width="40" height="7" rx="3" fill="#bf360c"/></svg>`).join('');
-$('#sun').onpointerdown=e=>{ac();boing();anim($('#sun'),'spinme',800)};
-document.querySelectorAll('.cloud svg').forEach(c=>c.onpointerdown=()=>{ac();slide();c.style.transform='scale(1.4,.7)';setTimeout(()=>c.style.transform='',300)});
-document.querySelectorAll('.bird svg').forEach(b=>b.onpointerdown=()=>{ac();tweet();anim(b,'jump',700)});
-document.querySelectorAll('.cone').forEach(c=>c.onpointerdown=()=>{ac();bang();anim(c,'jump',700)});
+$('#sun').onpointerdown=()=>{ac();boing();say('太阳公公');anim($('#sun'),'spinme',800)};
+document.querySelectorAll('.cloud svg').forEach(c=>c.onpointerdown=()=>{ac();slide();say('白云');c.style.transform='scale(1.4,.7)';setTimeout(()=>c.style.transform='',300)});
+document.querySelectorAll('.bird svg').forEach(b=>b.onpointerdown=()=>{ac();tweet();say('小鸟，叽叽喳');anim(b,'jump',700)});
+document.querySelectorAll('.cone').forEach(c=>c.onpointerdown=()=>{ac();bang();say('路锥');anim(c,'jump',700)});
 /* ---------- menu ---------- */
-$('#m1').innerHTML=excav();$('#m2').innerHTML=truck('#e53935');$('#m3').innerHTML=truck('#43a047','<circle cx="60" cy="45" r="15" fill="#a1887f"/><circle cx="100" cy="45" r="15" fill="#a1887f"/>');
-$('#drivers').innerHTML=[['#fdd835',72,9,0,''],['#1e88e5',84,13,-5,'rev'],['#ab47bc',62,11,-3,'']].map(([c,b,d,dl,r])=>`<svg class="drv ${r}" style="top:${b}vh;animation-duration:${d}s;animation-delay:${dl}s" viewBox="0 0 260 170">${truck(c)}</svg>`).join('');
-const STK=['🚜','🚧','⭐','🏗️','🚛','🌈','🎈','🦺','🏆','🌟','🚚','🎉'];let stickers=JSON.parse(localStorage.getItem('tt_st')||'[]');
+$('#m1').innerHTML=veh('excavator');$('#m2').innerHTML=veh('mixer','#e53935');$('#m3').innerHTML=veh('loader');$('#m4').innerHTML=veh('crane');
+function drivers(){$('#drivers').innerHTML=[[72,9,0,''],[84,13,-5,'rev'],[62,11,-3,'']].map(([b,d,dl,r])=>`<svg class="drv ${r}" style="top:${b}vh;animation-duration:${d}s;animation-delay:${dl}s" viewBox="-20 -60 300 230">${veh(pick(TYPES))}</svg>`).join('')}drivers();
+const STK=['🚜','🚧','⭐','🏗️','🚛','🌈','🎈','🦺','🏆','🌟','🚚','🎉','🚒'];let stickers=[];try{stickers=JSON.parse(localStorage.getItem('tt_st')||'[]')}catch(e){}
 function drawSt(){$('#stickers').innerHTML=stickers.slice(-24).map(s=>`<span>${s}</span>`).join('')}drawSt();
-let cur;function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));$('#'+id).classList.add('on');$('#home').style.display=id=='menu'?'none':'flex';cur=id;({g1:s1,g2:s2,g3:s3}[id]||drawSt)()}
+let cur;const NAMES={g1:'挖土装车',g2:'颜色回家',g3:'数石头',g4:'工程车车库'};
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));$('#'+id).classList.add('on');$('#home').style.display=id=='menu'?'none':'flex';cur=id;if(id=='menu'){drawSt();drivers();ask('选一个游戏吧')}else({g1:s1,g2:s2,g3:s3,g4:s4})[id]()}
 document.querySelectorAll('.big').forEach(b=>b.addEventListener('pointerdown',()=>{ac();pop();show(b.dataset.g)}));
 $('#home').onpointerdown=()=>{pop();show('menu')};
 $('#fs').onpointerdown=()=>{ac();const d=document.documentElement,f=d.requestFullscreen||d.webkitRequestFullscreen;if(document.fullscreenElement||document.webkitFullscreenElement)(document.exitFullscreen||document.webkitExitFullscreen).call(document);else if(f)f.call(d)};
+function act(svg,t){anim(svg,'go',1300);V[t].s()}
 /* ---------- celebration ---------- */
 const CS=['#e53935','#fdd835','#1e88e5','#43a047','#ab47bc','#ff9800'];
-function celebrate(next,color){const cel=$('#cel');cheer();setTimeout(horn,600);
- for(let i=0;i<40;i++){const d=document.createElement('div');d.className='conf';d.style.left=R()*100+'vw';d.style.background=CS[i%6];d.style.animationDelay=R()*.6+'s';cel.appendChild(d);setTimeout(()=>d.remove(),2800)}
- for(let k=0;k<3;k++)setTimeout(()=>{const x=15+R()*70,y=15+R()*35;tone(300+R()*400,.3,'sine',.1,0,80);for(let i=0;i<16;i++){const s=document.createElement('div'),a=i/16*6.283;s.className='spark';s.style.left=x+'vw';s.style.top=y+'vh';s.style.background=CS[(i+k)%6];s.style.setProperty('--x',Math.cos(a)*18+'vmin');s.style.setProperty('--y',Math.sin(a)*18+'vmin');cel.appendChild(s);setTimeout(()=>s.remove(),1200)}},k*400);
+function celebrate(next,t){const cel=$('#cel');praise();setTimeout(horn,900);
+ for(let i=0;i<36;i++){const d=document.createElement('div');d.className='conf';d.style.left=R()*100+'vw';d.style.background=CS[i%6];d.style.animationDelay=R()*.6+'s';cel.appendChild(d);setTimeout(()=>d.remove(),2800)}
+ for(let k=0;k<3;k++)setTimeout(()=>{const x=15+R()*70,y=15+R()*35;for(let i=0;i<14;i++){const s=document.createElement('div'),a=i/14*6.283;s.className='spark';s.style.left=x+'vw';s.style.top=y+'vh';s.style.background=CS[(i+k)%6];s.style.setProperty('--x',Math.cos(a)*18+'vmin');s.style.setProperty('--y',Math.sin(a)*18+'vmin');cel.appendChild(s);setTimeout(()=>s.remove(),1200)}},k*400);
  for(let i=0;i<5;i++){const b=document.createElement('div');b.className='bal';b.style.left=5+i*19+'vw';b.style.animationDelay=i*.15+'s';b.innerHTML=`<svg viewBox="0 0 40 70"><ellipse cx="20" cy="20" rx="17" ry="20" fill="${CS[i]}"/><ellipse cx="13" cy="13" rx="4" ry="6" fill="#fff8"/><path d="M20 40q-5 15 3 30" stroke="#555" fill="none"/></svg>`;cel.appendChild(b);setTimeout(()=>b.remove(),3400)}
- const bt=$('#bigtruck');bt.innerHTML=`<svg viewBox="0 0 260 170">${truck(color||CS[Math.floor(R()*6)])}</svg>`;bt.classList.add('show');
- const s=STK[Math.floor(R()*STK.length)];$('#stk').textContent=s;$('#stk').classList.add('show');stickers.push(s);try{localStorage.setItem('tt_st',JSON.stringify(stickers.slice(-60)))}catch(e){}
- setTimeout(()=>{bt.classList.remove('show');$('#stk').classList.remove('show')},2300);setTimeout(next,2800)}
-/* ---------- game 1 ---------- */
-let fill=0,busy=false;$('#ex').innerHTML=excav();
-function s1(){fill=0;busy=false;const dt=$('#dt');dt.style.transition='none';dt.style.transform='translateX(110vw)';drawDT();requestAnimationFrame(()=>requestAnimationFrame(()=>{dt.style.transition='transform 1.2s ease-out';dt.style.transform='translateX(0)'}));$('#hand').style.display='block'}
+ const bt=$('#bigtruck');t=t||pick(TYPES);bt.innerHTML=`<svg viewBox="-20 -60 300 230">${veh(t)}</svg>`;bt.classList.add('show');
+ const s=pick(STK);$('#stk').textContent=s;$('#stk').classList.add('show');stickers.push(s);try{localStorage.setItem('tt_st',JSON.stringify(stickers.slice(-60)))}catch(e){}
+ setTimeout(()=>{bt.classList.remove('show');$('#stk').classList.remove('show')},2300);setTimeout(next,2700)}
+/* ---------- game 1: dig (excavator or loader) ---------- */
+let fill=0,busy=false,dig='excavator',w1=0;
+function s1(){fill=0;busy=false;dig=w1%2?'loader':'excavator';$('#ex').innerHTML=veh(dig);$('#ex').setAttribute('viewBox',dig=='loader'?'0 0 300 170':'0 0 260 170');const dt=$('#dt');dt.style.transition='none';dt.style.transform='translateX(110vw)';drawDT();requestAnimationFrame(()=>requestAnimationFrame(()=>{dt.style.transition='transform 1.2s ease-out';dt.style.transform='translateX(0)'}));$('#hand').style.display='block';ask('点一点'+V[dig].n+'，装满翻斗车')}
 function drawDT(){let l='';for(let i=0;i<fill;i++)l+=`<ellipse cx="${55+i*32}" cy="${52-i*5}" rx="${32+i*8}" ry="${13+i*6}" fill="#8d5524" stroke="#5d3a1a" stroke-width="3"/>`;$('#dt').innerHTML=truck('#ff9800',l)}
-$('#ex').addEventListener('pointerdown',()=>{if(busy)return;busy=true;$('#hand').style.display='none';dig();const e=$('#ex');e.classList.add('dig');$('#scoop').setAttribute('opacity',1);setTimeout(()=>{e.classList.remove('dig');setTimeout(()=>{$('#scoop').setAttribute('opacity',0);fill++;pop(fill);drawDT();anim($('#dt'),'boing',600);if(fill>=3){setTimeout(()=>{horn();const dt=$('#dt');dt.style.transition='transform 1.6s ease-in';dt.style.transform='translateX(110vw)';tone(90,1.5,'sawtooth',.08);celebrate(()=>{if(cur=='g1')s1()},'#ff9800')},400)}else busy=false},350)},350)});
-/* ---------- game 2 ---------- */
-const COLS=['#e53935','#fdd835','#1e88e5','#43a047'];let tc,last=-1,g2busy=false;
-function s2(){g2busy=false;$('#garages').innerHTML=COLS.map((c,i)=>`<svg class="gar tap" data-i="${i}" viewBox="0 0 100 110"><path d="M5 42L50 5l45 37v63H5z" fill="${c}" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="20" y="52" width="60" height="53" rx="4" fill="#37474f"/><path d="M20 62h60M20 72h60M20 82h60M20 92h60" stroke="#546e7a" stroke-width="3"/><circle cx="50" cy="30" r="8" fill="#fff"/></svg>`).join('');do tc=Math.floor(R()*4);while(tc==last);last=tc;const t=$('#ctruck');t.style.transition='none';t.style.transform='';t.innerHTML=truck(COLS[tc]);t.classList.add('hint');document.querySelectorAll('.gar').forEach(g=>g.onpointerdown=()=>{ac();if(+g.dataset.i==tc)go(g);else{tone(220,.2,'sine',.15);g.animate([{transform:'translateX(0)'},{transform:'translateX(2vmin)'},{transform:'translateX(-2vmin)'},{transform:'translateX(0)'}],300)}})}
-function go(g){if(g2busy)return;g2busy=true;const t=$('#ctruck'),r=g.getBoundingClientRect();t.classList.remove('hint');t.style.transition='none';t.style.transform='';const q=t.getBoundingClientRect();void q.width;t.style.transition='transform .8s';t.style.transform=`translate(${r.left+r.width/2-q.left-q.width/2}px,${r.top+r.height/2-q.top-q.height/2}px) scale(.45)`;anim(g,'boing',600);celebrate(()=>{if(cur=='g2')s2()},COLS[tc])}
-(()=>{const t=$('#ctruck');let sx,sy,drag=false;t.addEventListener('pointerdown',e=>{if(g2busy)return;ac();pop();drag=true;sx=e.clientX;sy=e.clientY;t.classList.remove('hint');t.style.transition='none';try{t.setPointerCapture(e.pointerId)}catch(_){}});t.addEventListener('pointermove',e=>{if(drag)t.style.transform=`translate(${e.clientX-sx}px,${e.clientY-sy}px) rotate(${(e.clientX-sx)/40}deg)`});t.addEventListener('pointerup',e=>{if(!drag)return;drag=false;const g=[...document.querySelectorAll('.gar')].find(g=>{const r=g.getBoundingClientRect();return e.clientX>r.left-50&&e.clientX<r.right+50&&e.clientY>r.top-50&&e.clientY<r.bottom+80});if(g&&+g.dataset.i==tc)go(g);else{t.style.transition='transform .4s';t.style.transform='';t.classList.add('hint')}})})();
-/* ---------- game 3 ---------- */
-let need,have;function s3(){need=1+Math.floor(R()*3);have=0;$('#num').innerHTML='<div class="dot"></div>'.repeat(need);$('#rocks').innerHTML=rockSvg.repeat(need);drawCT();document.querySelectorAll('.rock').forEach(r=>r.onpointerdown=()=>{if(r.dataset.u)return;ac();r.dataset.u=1;r.style.visibility='hidden';have++;for(let i=0;i<have;i++)tone(600+i*150,.12,'triangle',.2,i*.18);const d=$('#num').children[have-1];d.classList.add('f');d.textContent=have;drawCT();anim($('#ctr'),'boing',600);if(have==need)setTimeout(()=>celebrate(()=>{if(cur=='g3')s3()},'#43a047'),400)})}
-function drawCT(){let l='';for(let i=0;i<have;i++)l+=`<path d="M${28+i*40} 52l8-24 22-9 20 11 4 22z" fill="#a1887f" stroke="#6d4c41" stroke-width="3"/>`;$('#ctr').innerHTML=truck('#43a047',l)}
+$('#ex').addEventListener('pointerdown',()=>{if(busy)return;busy=true;ac();$('#hand').style.display='none';act($('#ex'),dig);setTimeout(()=>{fill++;pop(fill);say(['一','二','三'][fill-1]);drawDT();anim($('#dt'),'boing',600);if(fill>=3){setTimeout(()=>{w1++;horn();say('装满啦！翻斗车出发！');const dt=$('#dt');dt.style.transition='transform 1.6s ease-in';dt.style.transform='translateX(110vw)';setTimeout(()=>celebrate(()=>{if(cur=='g1')s1()},'dump'),1300)},600)}else busy=false},700)});
+/* ---------- game 2: colors, 2 -> 3 -> 4 choices ---------- */
+const COLS=['#e53935','#fdd835','#1e88e5','#43a047'],CN=['红色','黄色','蓝色','绿色'];let tc,g2busy=false,w2=0,shown=[];
+function s2(){g2busy=false;const n=Math.min(4,2+Math.floor(w2/3));shown=[0,1,2,3].sort(()=>R()-.5).slice(0,n);tc=pick(shown);const vt=pick(TYPES.filter(t=>t!='fire'));
+ $('#garages').innerHTML=shown.map(i=>`<svg class="gar tap" data-i="${i}" viewBox="0 0 100 110"><path d="M5 42L50 5l45 37v63H5z" fill="${COLS[i]}" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><rect x="20" y="52" width="60" height="53" rx="4" fill="#37474f"/><path d="M20 62h60M20 72h60M20 82h60M20 92h60" stroke="#546e7a" stroke-width="3"/><circle cx="50" cy="30" r="8" fill="#fff"/></svg>`).join('');
+ const t=$('#ctruck');t.setAttribute('viewBox','-20 -60 300 230');t.style.transition='none';t.style.transform='';t.innerHTML=veh(vt,COLS[tc]);t.dataset.t=vt;t.classList.add('hint');
+ ask(CN[tc]+'的'+V[vt].n+'，开回'+CN[tc]+'的家');
+ document.querySelectorAll('.gar').forEach(g=>g.onpointerdown=()=>{ac();if(+g.dataset.i==tc)go(g);else{hint();g.animate([{transform:'rotate(0)'},{transform:'rotate(4deg)'},{transform:'rotate(-4deg)'},{transform:'rotate(0)'}],400)}})}
+function go(g){if(g2busy)return;g2busy=true;w2++;const t=$('#ctruck'),r=g.getBoundingClientRect();t.classList.remove('hint');t.style.transition='none';t.style.transform='';const q=t.getBoundingClientRect();t.style.transition='transform .8s';t.style.transform=`translate(${r.left+r.width/2-q.left-q.width/2}px,${r.top+r.height/2-q.top-q.height/2}px) scale(.4)`;anim(g,'boing',600);celebrate(()=>{if(cur=='g2')s2()},t.dataset.t)}
+(()=>{const t=$('#ctruck');let sx,sy,drag=false;t.addEventListener('pointerdown',e=>{if(g2busy)return;ac();pop();drag=true;sx=e.clientX;sy=e.clientY;t.classList.remove('hint');t.style.transition='none';try{t.setPointerCapture(e.pointerId)}catch(_){}});t.addEventListener('pointermove',e=>{if(drag)t.style.transform=`translate(${e.clientX-sx}px,${e.clientY-sy}px) rotate(${(e.clientX-sx)/40}deg)`});t.addEventListener('pointerup',e=>{if(!drag)return;drag=false;const g=[...document.querySelectorAll('.gar')].find(g=>{const r=g.getBoundingClientRect();return e.clientX>r.left-50&&e.clientX<r.right+50&&e.clientY>r.top-50&&e.clientY<r.bottom+80});t.style.transition='transform .4s';t.style.transform='';t.classList.add('hint');if(g){if(+g.dataset.i==tc)go(g);else hint()}else if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>30)hint();else ask(lastQ)})})();
+/* ---------- game 3: count 1-3, later up to 5 ---------- */
+const NUM=['一','二','三','四','五'];let need,have,w3=0,ct;
+const rockSvg=`<svg class="rock tap hint" viewBox="0 0 100 80"><path d="M8 72L18 25 50 6 86 20 96 72z" fill="#a1887f" stroke="#6d4c41" stroke-width="5" stroke-linejoin="round"/><circle cx="40" cy="42" r="4" fill="#333"/><circle cx="62" cy="42" r="4" fill="#333"/><path d="M42 54q9 7 18 0" stroke="#333" stroke-width="3" fill="none"/></svg>`;
+function s3(){const mx=w3<6?3:5;need=1+Math.floor(R()*mx);have=0;ct=pick(['dump','loader','tow','forklift','mixer']);ct=ct=='dump'||ct=='loader'?ct:'dump';$('#num').innerHTML='<div class="dot"></div>'.repeat(need);$('#rocks').innerHTML=rockSvg.repeat(need);drawCT();ask('装'+(need==2?'两':NUM[need-1])+'块石头');
+ document.querySelectorAll('.rock').forEach(r=>r.onpointerdown=()=>{if(r.dataset.u)return;ac();r.dataset.u=1;r.style.visibility='hidden';have++;pop(have);say(NUM[have-1]);const d=$('#num').children[have-1];d.classList.add('f');d.textContent=have;drawCT();anim($('#ctr'),'boing',600);if(have==need){w3++;setTimeout(()=>celebrate(()=>{if(cur=='g3')s3()},'dump'),700)}})}
+function drawCT(){let l='';for(let i=0;i<have;i++)l+=`<path d="M${22+(i%3)*42} ${52-Math.floor(i/3)*20}l8-24 22-9 20 11 4 22z" fill="#a1887f" stroke="#6d4c41" stroke-width="3"/>`;$('#ctr').innerHTML=truck('#43a047',l)}
+/* ---------- game 4: vehicle garage ---------- */
+function s4(){$('#gar').innerHTML=TYPES.map(t=>`<div class="vc tap" data-t="${t}"><svg viewBox="-25 -60 310 235">${veh(t)}</svg></div>`).join('');ask('点一点，认识工程车');
+ document.querySelectorAll('.vc').forEach(c=>c.onpointerdown=()=>{ac();const t=c.dataset.t;act(c.querySelector('svg'),t);say(V[t].n,150);const nm=$('#nm');nm.textContent=V[t].n;nm.classList.add('show');clearTimeout(nm._t);nm._t=setTimeout(()=>nm.classList.remove('show'),1600)})}
 /* ---------- no zoom / menus ---------- */
 ['contextmenu','gesturestart','dblclick','selectstart'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
 if(location.hash)show(location.hash.slice(1));
-</script></body></html>
+</script>
+</body></html>
