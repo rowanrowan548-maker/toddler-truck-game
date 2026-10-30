@@ -116,10 +116,8 @@ svg{overflow:visible}.tap{cursor:pointer;pointer-events:auto}
 #road svg{width:9vmin;height:9vmin}#road .lock svg{filter:brightness(0) invert(1);opacity:.35}
 #stickers{display:none}
 html,body{overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-body.locked #home,body.locked #topbar{display:none!important}
-#lk{position:fixed;right:2vmin;top:2vmin;width:9vmin;height:9vmin;z-index:999;display:none;opacity:.6;touch-action:none}
-body.locked #lk{display:block}#lk.h{opacity:1}
-#lk circle.p{stroke-dasharray:113;stroke-dashoffset:113;transform:rotate(-90deg);transform-origin:center}
+
+
 </style><link rel="stylesheet" href="play.css">
 </head><body>
 <div id="bg">
@@ -291,24 +289,9 @@ function addWin(){const before=unl();total++;try{localStorage.setItem('tt_tot',t
 drawRoad();addEventListener('load',()=>{if(location.hash)show(location.hash.slice(1))});
 </script>
 <script src="phaser.min.js"></script><script src="play.js"></script><script src="game.js"></script><script src="fun.js"></script>
-<svg id="lk" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="#0005"/><circle class="p" cx="22" cy="22" r="18" fill="none" stroke="#ffd23f" stroke-width="4"/><text x="22" y="29" font-size="18" text-anchor="middle">🔒</text></svg>
 <script>
-(function(){const B=document.body,lk=$('#lk'),ring=lk.querySelector('.p');let locked=false,t0=0,raf=0;
-const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
-const reqFS=()=>{const d=document.documentElement,f=d.requestFullscreen||d.webkitRequestFullscreen;if(f&&!fsEl()){try{const p=f.call(d,{navigationUI:'hide'});p&&p.catch&&p.catch(()=>{})}catch(e){}}};
-const standalone=matchMedia('(display-mode: fullscreen),(display-mode: standalone)').matches||navigator.standalone;
-function lock(){if(locked)return;locked=true;B.classList.add('locked');history.pushState({lk:1},'');history.pushState({lk:1},'');reqFS()}
-function unlock(){locked=false;B.classList.remove('locked');if(fsEl())(document.exitFullscreen||document.webkitExitFullscreen).call(document)}
-window.childLock={lock,unlock,get on(){return locked}};
-$('#fs').onpointerdown=e=>{e.stopPropagation();ac();lock()};
-addEventListener('popstate',()=>{if(locked)history.pushState({lk:1},'')});
-addEventListener('beforeunload',e=>{if(locked){e.preventDefault();e.returnValue='';return ''}});
-document.addEventListener('pointerdown',()=>{if(locked)reqFS();else if(standalone)lock()},true);
-let sx=0;document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
-document.addEventListener('touchmove',e=>{if(!locked)return;const w=innerWidth;if(sx<30||sx>w-30||e.touches.length>1||!e.target.closest('#drag8,#ctruck'))e.preventDefault()},{passive:false});
+(function(){let sx=0;document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchmove',e=>{const w=innerWidth;if(sx<30||sx>w-30||e.touches.length>1||!e.target.closest('#drag8,#ctruck'))e.preventDefault()},{passive:false});
 document.addEventListener('gesturestart',e=>e.preventDefault());document.addEventListener('contextmenu',e=>e.preventDefault());
-const stop=()=>{cancelAnimationFrame(raf);lk.classList.remove('h');ring.style.strokeDashoffset=113};
-lk.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();t0=performance.now();lk.classList.add('h');const step=n=>{const p=Math.min(1,(n-t0)/3000);ring.style.strokeDashoffset=113*(1-p);if(p>=1){stop();unlock()}else raf=requestAnimationFrame(step)};raf=requestAnimationFrame(step)});
-['pointerup','pointercancel','pointerleave'].forEach(v=>lk.addEventListener(v,stop));
 })();
 </script></body></html>
