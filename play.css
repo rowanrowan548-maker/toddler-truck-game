@@ -174,4 +174,4 @@
 .surp .gift{position:absolute;left:30%;bottom:-40%;font-size:10vmin}
 .pscr img[src*="excavator"],.pscr img[src*="dump"],.pscr img[src*="fire"],.pscr img[src*="mixer"],.pscr img[src*="loader"],.pscr img[src*="roller"],.pscr img[src*="crane"],.pscr img[src*="bulldozer"],.pscr img[src*="tow"],.pscr img[src*="water"],.pscr img[src*="forklift"]{animation:vidle 1.4s ease-in-out infinite alternate}
 @keyframes vidle{to{translate:0 -.5vmin}}
-body[data-p=p_piano] #mascot{bottom:auto;top:13vh}
+body[data-p=p_piano] #mascot,body[data-p=p_music] #mascot{bottom:auto;top:13vh}
