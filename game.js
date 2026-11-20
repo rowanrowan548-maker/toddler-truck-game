@@ -408,7 +408,8 @@ class Draw extends Base{
  create(){this.base();const W=this.W,H=this.H,U=this.U;this.cameras.main.setBackgroundColor('#fff8e1');
   if(this.textures.exists('paper'))this.textures.remove('paper');this.ct=this.textures.createCanvas('paper',W,H);this.cx=this.ct.context;this.paperI=this.add.image(0,0,'paper').setOrigin(0).setDepth(1);
   this.ink=0;this.nextWin=900;this.col=ri(-1,7);this.hue=ri(0,359);this.act=new Map();this.dripL=[];this.pours=[];this.lock=false;
-  const pw=this.pw=Math.min(W*.62,H*.7*4/3),ph=this.ph=pw*.75;this.pcx=W*.5;this.pcy=H*.5;this.px0=this.pcx-pw/2;this.py0=this.pcy-ph/2;
+  const y0=this.topY(U*5)+U*7,y1=this.botY(U*4.4)-U*6,maxPh=Math.max(U*36,y1-y0);
+  const pw=this.pw=Math.min(W*.62,maxPh*4/3),ph=this.ph=pw*.75;this.pcx=W*.5;this.pcy=(y0+y1)/2;this.px0=this.pcx-pw/2;this.py0=this.pcy-ph/2;
   this.card=this.add.graphics().setDepth(1.5);this.drawCard(0xffffff);
   if(this.textures.exists('cfill'))this.textures.remove('cfill');this.cf=this.textures.createCanvas('cfill',400,300);this.cfI=this.add.image(this.pcx,this.pcy,'cfill').setDisplaySize(pw,ph).setDepth(2);
   this.lineI=this.add.image(this.pcx,this.pcy,'cp_'+CP[0]).setDisplaySize(pw,ph).setDepth(3);
@@ -432,7 +433,7 @@ class Draw extends Base{
  sel(arr,b){arr.forEach(x=>x.ring.setVisible(x==b))}
  colRGB(a){if(a.ci>=0)return COL[a.ci];this.hue=(this.hue+3)%360;return Phaser.Display.Color.HSLToColor(((this.hue+a.ho)%360)/360,.9,.55).color}
  colOf(a){return hexS(this.colRGB(a))}
- setMode(m,first){if(this.lock)return;const W=this.W,H=this.H;this.mode=m;this.act.forEach(a=>a.veh&&a.veh.destroy());this.act.clear();this.sel(this.mb,this.mb.find(b=>b._m==m));if(this.scT){this.scT.remove();this.scT=null}
+ setMode(m,first){this.lock=false;if(this._cel){try{this.tweens.killTweensOf(this._cel);this._cel.destroy()}catch(e){}this._cel=null}const W=this.W,H=this.H;this.mode=m;this.act.forEach(a=>a.veh&&a.veh.destroy());this.act.clear();this.sel(this.mb,this.mb.find(b=>b._m==m));if(this.scT){this.scT.remove();this.scT=null}
   const F=m=='free',C=m=='color',S=m=='scratch',G=m=='gallery';
   this.paperI.setVisible(F);this.card.setVisible(C||S);this.cfI.setVisible(C);this.lineI.setVisible(C);this.scI.setVisible(S);this.scC.setVisible(S);
   this.tb.forEach(b=>b.setVisible(F));this.pal.forEach(b=>b.setVisible(F||C));this.done.setVisible(F||C);this.dice.setVisible(C||S);
@@ -469,12 +470,12 @@ class Draw extends Base{
  finish(){if(this.lock)return;if(this.mode=='color'){if(!this.filled.size){sayT('先涂上颜色吧！',0);return}this.alivePage()}else if(this.mode=='free'){if(this.ink<20){sayT('先画一画吧！',0);return}this.saveFree()}}
  alivePage(){this.lock=true;this.pours.forEach(p=>p.r=1e9);this.stepPours();const k=this.page,kind=CPK(k),c=this.snapshot(),key='alive'+(this._an=(this._an||0)+1);this.textures.addCanvas(key,c);
   const t=document.createElement('canvas');t.width=240;t.height=180;t.getContext('2d').drawImage(c,0,0,240,180);galSave({d:t.toDataURL('image/png'),k,kind,t:Date.now()});
-  const spr=this.add.image(this.pcx,this.pcy,key).setDisplaySize(this.pw,this.ph).setDepth(20);this.lineI.setVisible(false);this.cfI.setVisible(false);this.burstStar(this.pcx,this.pcy,20);this.snd('confirm');
+  const spr=this._cel=this.add.image(this.pcx,this.pcy,key).setDisplaySize(this.pw,this.ph).setDepth(20);this.lineI.setVisible(false);this.cfI.setVisible(false);this.burstStar(this.pcx,this.pcy,20);this.snd('confirm');
   this.animate(spr,kind,k,()=>{this.party(pk(DPR));this.flyToGallery(spr,()=>{this.textures.remove(key);this.lock=false;if(this.mode=='color'){this.cfI.setVisible(true);this.lineI.setVisible(true);this.loadPage()}})})}
  saveFree(){this.lock=true;const W=this.W,H=this.H,t=document.createElement('canvas');t.width=320;t.height=Math.round(320*H/W);const x=t.getContext('2d');x.fillStyle='#fff8e1';x.fillRect(0,0,t.width,t.height);x.drawImage(this.ct.getSourceImage(),0,0,t.width,t.height);
-  galSave({d:t.toDataURL('image/jpeg',.75),k:'free',kind:'free',t:Date.now()});const key='alive'+(this._an=(this._an||0)+1);this.textures.addCanvas(key,t);const spr=this.add.image(W/2,H/2,key).setDisplaySize(W,H).setDepth(20);this.paperI.setVisible(false);
+  galSave({d:t.toDataURL('image/jpeg',.75),k:'free',kind:'free',t:Date.now()});const key='alive'+(this._an=(this._an||0)+1);this.textures.addCanvas(key,t);const spr=this._cel=this.add.image(W/2,H/2,key).setDisplaySize(W,H).setDepth(20);this.paperI.setVisible(false);
   this.tweens.add({targets:spr,displayWidth:W*.6,displayHeight:H*.6,duration:500,ease:'Back.easeOut',onComplete:()=>this.animate(spr,'free','free',()=>{this.party(pk(DPR));this.flyToGallery(spr,()=>{this.textures.remove(key);this.cx.clearRect(0,0,W,H);this.ct.refresh();this.ink=0;this.nextWin=900;this.dripL=[];this.paperI.setVisible(this.mode=='free');this.lock=false;sayT('又是新的一张纸！',0)})})})}
- flyToGallery(spr,cb){const b=this.mb[3];this.tweens.add({targets:spr,x:b.x,y:b.y,scale:spr.scale*.06,angle:360,duration:700,ease:'Quad.easeIn',onComplete:()=>{spr.destroy();this.squash(b,1.5);this.burstStar(b.x,b.y,12);this.snd('select',{v:.7});cb&&cb()}})}
+ flyToGallery(spr,cb){const b=this.mb[3];this.tweens.add({targets:spr,x:b.x,y:b.y,scale:spr.scale*.06,angle:360,duration:700,ease:'Quad.easeIn',onComplete:()=>{if(this._cel===spr)this._cel=null;spr.destroy();this.squash(b,1.5);this.burstStar(b.x,b.y,12);this.snd('select',{v:.7});cb&&cb()}})}
  animate(spr,kind,key,cb){const U=this.U,W=this.W,x0=spr.x,y0=spr.y,nmS=CPN(key);
   if(kind=='veh'){try{horn()}catch(e){}try{PJ.snd(key)}catch(e){}sayT(pk([nmS+'活过来啦！','嘀嘀！'+nmS+'出发啦！']),0);let tr=null;
    this.tweens.chain({targets:spr,tweens:[{y:y0-U*6,duration:200,yoyo:true,repeat:1,ease:'Quad.easeOut'},{angle:-7,duration:160,yoyo:true},

@@ -17,8 +17,8 @@ const M=mk('div','',`<img class="mw" src="${A('m_wave')}"><img class="mc" src="$
 const LINES={tap:['汪汪！我是小黄狗','一起玩吧！','嘿嘿，好痒','汪！加油！','我是工程师小黄'],cheer:['太棒啦！','哇，你真厉害！','耶！成功啦！','好开心呀！','汪汪，太棒了！','宝宝真能干！'],tiny:['哇！','好棒！','嘿嘿','汪！','真好玩！']};
 const pickL=k=>LINES[k][Math.floor(Math.random()*LINES[k].length)];
 const bub=t=>{const b=M.querySelector('.bub');b.textContent=t;b.classList.remove('on');void b.offsetWidth;b.classList.add('on')};
-const hop=(big)=>{M.animate(big?[{transform:'translateY(0) scale(1,1)'},{transform:'translateY(4%) scale(1.15,.85)'},{transform:'translateY(-45%) scale(.9,1.12) rotate(-8deg)'},{transform:'translateY(0) scale(1.12,.9)'},{transform:'translateY(-25%) rotate(8deg)'},{transform:'none'}]:[{transform:'none'},{transform:'scale(1.12,.88)'},{transform:'translateY(-18%) scale(.95,1.06)'},{transform:'none'}],{duration:big?1100:450,easing:'ease-out'})};
-const cheerMode=ms=>{M.classList.add('ch');clearTimeout(M._t);M._t=setTimeout(()=>M.classList.remove('ch'),ms)};
+const hop=(big)=>{M.getAnimations().forEach(a=>{try{a.cancel()}catch(e){}});M.style.transform='none';M.animate(big?[{transform:'translateY(0) scale(1,1)'},{transform:'translateY(4%) scale(1.15,.85)'},{transform:'translateY(-45%) scale(.9,1.12) rotate(-8deg)'},{transform:'translateY(0) scale(1.12,.9)'},{transform:'translateY(-25%) rotate(8deg)'},{transform:'none'}]:[{transform:'none'},{transform:'scale(1.12,.88)'},{transform:'translateY(-18%) scale(.95,1.06)'},{transform:'none'}],{duration:big?1100:450,easing:'ease-out'})};
+const cheerMode=ms=>{M.classList.add('cheer');clearTimeout(M._t);M._t=setTimeout(()=>M.classList.remove('cheer'),ms)};
 M.addEventListener('pointerdown',e=>{e.stopPropagation();ac();hop(1);sfx.yip();say(pickL('tap'));cheerMode(1200);const[x,y]=ctr(M);burst(x,y-6*vm(),{n:10,ch:['❤️','⭐','🐾'],sp:22})});
 let taps=0;
 document.addEventListener('pointerdown',e=>{if(!isP())return;const t=e.target;
@@ -59,6 +59,6 @@ function surprise(){if(!isP()||document.hidden||document.querySelector('.surp'))
  e.addEventListener('pointerdown',ev=>{ev.stopPropagation();ac();fx();say(name);hop(0);bub('哇！')});setTimeout(()=>e.remove(),life+200)}
 const sched=()=>{clearTimeout(sT);sT=setTimeout(()=>{surprise();sched()},rnd(22000,38000))};sched();
 /* ---- route hook ---- */
-const o=show;show=function(id){o(id);setTimeout(()=>{document.body.dataset.p=cur;const on=isP()||cur==='garage';M.classList.toggle('on',on);BG.classList.toggle('on',isP());if(on){M.classList.remove('ch');hop(0);if(isP()&&Math.random()<.5)setTimeout(()=>bub('一起玩吧！'),400)}},60)};window.show=show;
+const o=show;show=function(id){o(id);setTimeout(()=>{document.body.dataset.p=cur;const on=isP()||cur==='garage';M.classList.toggle('on',on);BG.classList.toggle('on',isP());if(on){M.classList.remove('cheer');hop(0);if(isP()&&Math.random()<.5)setTimeout(()=>bub('一起玩吧！'),400)}},60)};window.show=show;
 window.FUN={win,shake,garage,surprise,reward,get got(){return got}};
 })();
