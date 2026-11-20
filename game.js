@@ -28,7 +28,9 @@ const Q={q:((navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=
 (()=>{const P=Phaser.GameObjects.Particles.ParticleEmitter.prototype,ex=P.explode;P.explode=function(n,x,y){return ex.call(this,Math.max(1,Math.round((n||1)*Q.q)),x,y)}})();
 class Base extends Phaser.Scene{
  constructor(key,matter){super(matter?{key,physics:{default:'matter',matter:{gravity:{y:1.1},enableSleeping:false}}}:{key})}
- init(){this.W=this.scale.width;this.H=this.scale.height;this.U=Math.min(this.W,this.H)/100;this.sT={};this.wins=0;this.touched=0}
+ init(){this.W=this.scale.width;this.H=this.scale.height;this.U=Math.min(this.W,this.H)/100;this.sT={};this.wins=0;this.touched=0;
+  /* keep Phaser buttons clear of HTML 🏠/mute/fs (top 15vmin) and mascot/stbadge (bottom ~21vmin) */
+  this.topY=r=>Math.max(this.U*20,this.U*16.5+(r||0));this.botY=r=>this.H-Math.max(this.U*7,this.U*22+(r||this.U*4.4))}
  thr(k,gap){const n=performance.now();if(n-(this.sT['_'+k]||0)<gap)return false;this.sT['_'+k]=n;return true}
  snd(k,o={}){const n=performance.now();if(n-(this.sT[k]||0)<(o.gap??45))return;this.sT[k]=n;try{this.sound.play(k,{volume:o.v??.7,rate:o.rate??1,detune:o.det??0})}catch(e){}}
  base(){
@@ -264,7 +266,7 @@ class Wash extends Base{
   else if(m=='sticker')items=STK.map(([e,n],i)=>[e=='123'?'🔢':e,n+'贴纸',()=>{this.stk=i},0xffffff,i]);
   else if(m=='acc')items=[['🚨','闪闪灯',()=>this.toggle('light')],['📯','小喇叭',()=>this.toggle('horn')],['🚩','小旗子',()=>this.toggle('flag')],['👀','大眼睛',()=>this.toggle('eyes')],['🎩','帽子',()=>this.toggle('hat')]];
   if(!items.length)return;const n=items.length,sp=Math.min(U*11,W*.62/n);
-  items.forEach(([ic,nmS,cb,tint,idx],i)=>{const b=this.button(W/2+(i-(n-1)/2)*sp,U*7.5,Math.min(U*4.6,sp*.44),ic,nmS,()=>{cb();if(idx!=null)this.trayO.forEach(x=>x.ring.setVisible(x==b))},{tint:tint});if(tint&&ic==' ')b.bg.setTint(tint);b.setScale(.01);this.tweens.add({targets:b,scale:1,duration:220,delay:i*30,ease:'Back.easeOut'});b._i=idx;this.trayO.push(b)});
+  items.forEach(([ic,nmS,cb,tint,idx],i)=>{const b=this.button(W/2+(i-(n-1)/2)*sp,this.topY(Math.min(U*4.6,sp*.44)),Math.min(U*4.6,sp*.44),ic,nmS,()=>{cb();if(idx!=null)this.trayO.forEach(x=>x.ring.setVisible(x==b))},{tint:tint});if(tint&&ic==' ')b.bg.setTint(tint);b.setScale(.01);this.tweens.add({targets:b,scale:1,duration:220,delay:i*30,ease:'Back.easeOut'});b._i=idx;this.trayO.push(b)});
   const cur=m=='spray'?this.col:m=='sticker'?this.stk:null;this.trayO.forEach(b=>b.ring.setVisible(cur!=null&&b._i===cur))}
  toolStart(a){const t=this.tool;if(t=='sticker'){this.sticker(a.p);return}if(t=='acc')return;
   sayT(t=='mud'?pk(['泥巴来啦！','吧唧吧唧！']):t=='soap'?pk(['擦泡泡','泡泡多多']):t=='water'?pk(['冲冲冲！','哗啦啦！']):t=='dry'?'呼呼呼':pk(['喷喷喷！','变漂亮！']),1500)}
@@ -348,7 +350,7 @@ class Wash extends Base{
   for(let i=0;i<10;i++)this.time.delayedCall(i*90,()=>this.burstStar(rg.x+rnd(-this.dw*.4,this.dw*.4),rg.y+rnd(-this.dh*.3,this.dh*.2),5));
   const bar=this.add.rectangle(rg.x-this.dw*.6,rg.y,U*5,this.dh*.9,0xffffff,.55).setDepth(12).setAngle(20).setBlendMode('ADD');this.tweens.add({targets:bar,x:rg.x+this.dw*.6,duration:700,onComplete:()=>bar.destroy()});
   this.time.delayedCall(700,()=>{try{horn();setTimeout(()=>horn(),350)}catch(e){}this.tweens.add({targets:rg,y:rg.y-U*4,duration:180,yoyo:true,repeat:1,ease:'Quad.easeOut'})});
-  if(this.go)this.go.destroy();this.go=this.button(this.W/2,this.H*.27,U*7,'🏁','开走啦！去表演！',()=>this.runway(),{tint:0xfff176});this.tweens.add({targets:this.go,scale:1.15,duration:500,yoyo:true,repeat:-1});
+  this.tray(null);if(this.go)this.go.destroy();this.go=this.button(this.W/2,this.H*.27,U*7,'🏁','开走啦！去表演！',()=>this.runway(),{tint:0xfff176});this.tweens.add({targets:this.go,scale:1.15,duration:500,yoyo:true,repeat:-1});
   this.time.delayedCall(9000,()=>{if(this.go&&this.go.active&&!this.busy)this.runway()})}
  /* ---------- show-off runway ---------- */
  runway(){if(this.busy)return;this.busy=true;if(this.go){this.go.destroy();this.go=null}this.tray(null);this.act.clear();const W=this.W,H=this.H,U=this.U,F=this.F,rg=this.rig;
@@ -412,14 +414,14 @@ class Draw extends Base{
   this.lineI=this.add.image(this.pcx,this.pcy,'cp_'+CP[0]).setDisplaySize(pw,ph).setDepth(3);
   this.scI=this.add.image(this.pcx,this.pcy,'bulldozer').setDepth(2.5);
   if(this.textures.exists('scov'))this.textures.remove('scov');this.sc=this.textures.createCanvas('scov',Math.round(pw),Math.round(ph));this.scC=this.add.image(this.pcx,this.pcy,'scov').setDepth(4);this.small=document.createElement('canvas');this.small.width=40;this.small.height=30;
-  const pal=this.pal=COL.map((c,i)=>{const b=this.button(W/2+(i-4)*U*10,H-U*7,U*4.4,'',CNAME[i],()=>{this.col=i;this.sel(pal,b)},{tint:c});b.bg.setTint(c);b._i=i;return b});
-  const rb=this.button(W/2+4*U*10,H-U*7,U*4.4,'🌈','彩虹',()=>{this.col=-1;this.sel(pal,rb)});rb._i=-1;pal.push(rb);this.sel(pal,pal.find(b=>b._i==this.col));
+  const pal=this.pal=COL.map((c,i)=>{const b=this.button(W/2+(i-4)*U*10,this.botY(U*4.4),U*4.4,'',CNAME[i],()=>{this.col=i;this.sel(pal,b)},{tint:c});b.bg.setTint(c);b._i=i;return b});
+  const rb=this.button(W/2+4*U*10,this.botY(U*4.4),U*4.4,'🌈','彩虹',()=>{this.col=-1;this.sel(pal,rb)});rb._i=-1;pal.push(rb);this.sel(pal,pal.find(b=>b._i==this.col));
   const tl=[['brush','🖌️','画笔'],['truck','🚜','小车开过来'],['splat','💥','泼颜料'],['stamp','bulldozer','印章'],['star','✨','星星'],['wipe','🧽','擦干净']];
   this.tb=tl.map(([m,ic,n],i)=>{const b=this.button(W-U*8,U*21+i*U*11.5,U*4.8,ic,n,()=>{if(m=='wipe'){this.wipe();return}this.tool=m;this.sel(this.tb,b)});b._m=m;return b});
   this.done=this.button(U*8,U*24,U*6,'✅','画好啦',()=>this.finish(),{tint:0xc5e1a5});
   this.dice=this.button(U*8,U*40,U*5.5,'🎲','换一张',()=>this.next(),{tint:0xffe082});
   const md=[['free','🖍️','自由画画'],['color','📖','涂颜色'],['scratch','🪄','刮刮乐'],['gallery','🖼️','我的画廊']];
-  this.mb=md.map(([m,ic,n],i)=>{const b=this.button(W/2+(i-1.5)*U*12.5,U*7.5,U*5,ic,n,()=>this.setMode(m),{tint:[0xffcdd2,0xbbdefb,0xe1bee7,0xffe0b2][i]});b._m=m;return b});
+  this.mb=md.map(([m,ic,n],i)=>{const b=this.button(W/2+(i-1.5)*U*12.5,this.topY(U*5),U*5,ic,n,()=>this.setMode(m),{tint:[0xffcdd2,0xbbdefb,0xe1bee7,0xffe0b2][i]});b._m=m;return b});
   this.gal=null;
   this.input.on('pointerdown',(p,over)=>{if(over.length||this.lock)return;this.down(p)});
   this.input.on('pointerup',p=>{const a=this.act.get(p.id);if(a&&a.veh)this.dropVeh(a);this.act.delete(p.id)});
@@ -555,7 +557,7 @@ class Feed extends Base{
   this.ax=W*.64;this.ah=H*.56;this.ai=0;this.mouthB=this.matter.add.circle(this.ax,G-this.ah*.6,this.ah*.22,{isStatic:true,isSensor:true,label:'mouth'});
   this.animal=this.add.image(this.ax,G,ANIM[0]).setOrigin(.5,1).setDepth(10);this.setAnimal(0,true);
   this.animal.setInteractive();this.animal.on('pointerdown',(p,lx,ly,ev)=>{ev.stopPropagation();this.pet()});
-  this.ports=ANIM.map((k,i)=>this.button(W*.33+i*U*9.6,U*7,U*4.2,k,nm(k),()=>this.setAnimal(i)));
+  this.ports=ANIM.map((k,i)=>{const n=ANIM.length,sp=Math.min(U*10,(W-U*18)/Math.max(1,n-1));return this.button(W/2+(i-(n-1)/2)*sp,this.topY(U*4.2),U*4.2,k,nm(k),()=>this.setAnimal(i))});
   this.matter.world.on('collisionstart',e=>{for(const p of e.pairs){const a=p.bodyA,b=p.bodyB;const m=a.label=='mouth'?b:b.label=='mouth'?a:null;if(m&&m.gameObject&&m.label=='food'){this.eat(m.gameObject);continue}
    const dv=Math.hypot(a.velocity.x-b.velocity.x,a.velocity.y-b.velocity.y);if(dv>4&&!a.isSensor&&!b.isSensor){this.snd(pk(['soft_m','soft_h']),{v:Math.min(.8,dv/14),rate:rnd(.9,1.2),gap:70});const s=p.collision.supports[0];if(s&&dv>7){this.fxDust.explode(4,s.x,s.y);const fo=(a.gameObject&&a.gameObject._k=='it_melon')?a.gameObject:(b.gameObject&&b.gameObject._k=='it_melon')?b.gameObject:null;if(fo)this.mono(s.x,s.y,0xef5350,10)}}}});
   this.bites=0;for(let i=0;i<7;i++)this.time.delayedCall(i*120,()=>this.spawn());this.time.addEvent({delay:900,loop:true,callback:()=>{if(this.foods.length<8)this.spawn()}});
