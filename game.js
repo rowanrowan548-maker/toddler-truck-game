@@ -30,7 +30,7 @@ class Base extends Phaser.Scene{
  constructor(key,matter){super(matter?{key,physics:{default:'matter',matter:{gravity:{y:1.1},enableSleeping:false}}}:{key})}
  init(){this.W=this.scale.width;this.H=this.scale.height;this.U=Math.min(this.W,this.H)/100;this.sT={};this.wins=0;this.touched=0;
   /* keep Phaser buttons clear of HTML 🏠/mute/fs (top 15vmin) and mascot/stbadge (bottom ~21vmin) */
-  this.topY=r=>Math.max(this.U*20,this.U*16.5+(r||0));this.botY=r=>this.H-Math.max(this.U*7,this.U*22+(r||this.U*4.4))}
+  this.topY=r=>Math.max(this.U*20,this.U*16.5+(r||0));this.botY=r=>this.H-Math.max(this.U*7,this.U*34+(r||this.U*4.4))}
  thr(k,gap){const n=performance.now();if(n-(this.sT['_'+k]||0)<gap)return false;this.sT['_'+k]=n;return true}
  snd(k,o={}){const n=performance.now();if(n-(this.sT[k]||0)<(o.gap??45))return;this.sT[k]=n;try{this.sound.play(k,{volume:o.v??.7,rate:o.rate??1,detune:o.det??0})}catch(e){}}
  base(){
